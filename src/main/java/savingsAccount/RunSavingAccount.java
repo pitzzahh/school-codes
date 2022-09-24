@@ -1,3 +1,5 @@
+package savingsAccount;
+
 import java.util.Currency;
 import java.util.Scanner;
 
@@ -17,7 +19,7 @@ public class RunSavingAccount {
     /**
      * Method used to get user input.
      * @param scanner the {@code Scanner} object needed for user input.
-     * @param savingsAccount the {@code SavingsAccount} object containing the savings account.
+     * @param savingsAccount the {@code savingsAccount.SavingsAccount} object containing the savings account.
      */
     private static void userInput(Scanner scanner, SavingsAccount savingsAccount) {
         System.out.print("Enter interest rate : ");
@@ -36,7 +38,7 @@ public class RunSavingAccount {
     /**
      * Method used to process a transaction whether deposit or withdrawal.
      * @param scanner the {@code Scanner} object needed for user input.
-     * @param savingsAccount the {@code SavingsAccount} object containing the savings account.
+     * @param savingsAccount the {@code savingsAccount.SavingsAccount} object containing the savings account.
      * @param choice the choice if deposit or withdraw.
      */
     private static void processTransaction(Scanner scanner, SavingsAccount savingsAccount, char choice) {
@@ -51,7 +53,7 @@ public class RunSavingAccount {
     /**
      * Method used to deposit an amount to a savings account.
      * @param scanner the {@code Scanner} object needed for user input.
-     * @param savingsAccount the {@code SavingsAccount} object containing the savings account.
+     * @param savingsAccount the {@code savingsAccount.SavingsAccount} object containing the savings account.
      */
     private static void deposit(Scanner scanner, SavingsAccount savingsAccount) {
         System.out.print("Enter deposit amount: ");
@@ -68,7 +70,7 @@ public class RunSavingAccount {
     /**
      * Method used to withdraw an amount from a savings account.
      * @param scanner the {@code Scanner} object needed for user input.
-     * @param savingsAccount the {@code SavingsAccount} object containing the savings account.
+     * @param savingsAccount the {@code savingsAccount.SavingsAccount} object containing the savings account.
      */
     private static void withdraw(Scanner scanner, SavingsAccount savingsAccount) {
         System.out.print("Enter amount to withdraw: ");
@@ -79,7 +81,7 @@ public class RunSavingAccount {
 
     /**
      * Used to print the initial balance of a savings account
-     * @param savingsAccount the {@code SavingsAccount} object containing the savings account.
+     * @param savingsAccount the {@code savingsAccount.SavingsAccount} object containing the savings account.
      */
     private static void showInitialBalance(SavingsAccount savingsAccount) {
         String accountBalance = String.valueOf(savingsAccount.getBalance());

@@ -1,4 +1,4 @@
-import java.util.Currency;
+package savingsAccount;
 
 /**
  * Class used to make a savings account.
