@@ -1,3 +1,5 @@
+package dsaTP;
+
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.stream.IntStream;
