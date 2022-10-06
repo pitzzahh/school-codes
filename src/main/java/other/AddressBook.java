@@ -9,21 +9,22 @@ public class AddressBook {
     private boolean isAdding = false;
 
     public void addEntry(AddressBookEntry entry) {
-        if (ENTRIES.length > 100) throw new IllegalStateException("Exceeded max entries");
+        if (ENTRIES.length > 999_999) throw new IllegalStateException("Exceeded max entries");
         book = entry;
-        System.out.println("book = " + book);
+        System.out.println("book = " + book.toString());
         addToEntry();
     }
 
     private void addToEntry() {
         Objects.requireNonNull(book);
 
-        final var SIZE_OF_ARRAY = ENTRIES.length; // 10
+        final var SIZE_OF_ARRAY = ENTRIES.length;
 
-        var currentSize = Arrays  // 0
+        var currentSize = Arrays
                 .stream(ENTRIES)
                 .filter(Objects::nonNull)
                 .count();
+
         var isFull = currentSize >= SIZE_OF_ARRAY;
         if (isFull) increaseArraySize();
 
