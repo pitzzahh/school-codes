@@ -3,13 +3,12 @@ package savingsAccountFunctionalApproach;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import static io.github.pitzzahh.utilities.Print.*;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.lang.Double.parseDouble;
 import static java.util.Currency.getInstance;
 import static savingsAccountFunctionalApproach.Color.*;
-import static savingsAccountFunctionalApproach.Print.printf;
-import static savingsAccountFunctionalApproach.Print.println;
 import static savingsAccountFunctionalApproach.SavingsAccount.showBalance;
 import static savingsAccountFunctionalApproach.SavingsAccount.setInterestRate;
 
@@ -154,34 +153,6 @@ public class RunSavingAccount {
             );
 }
 
-/**
- * Class used to shorten the printing using System.out.* printing functions.
- */
-class Print {
-
-    /**
-     * Prints any Object and then terminate the line.
-     * @param object the thing to print.
-     * @param <T> the type of the {@code Object}.
-     */
-    public static <T> void println(T object) {
-        System.out.println(object);
-    }
-
-    /**
-     * Prints a formatted String
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
-     * @param args arguments.
-     * @param <T> the type of the {@code Object}.
-     */
-    @SafeVarargs
-    @SuppressWarnings("ConfusingArgumentToVarargsMethod")
-    public static <T> void printf(String format, T...args) {
-        System.out.printf(format, args);
-    }
-}
 class Color {
 
     /**
