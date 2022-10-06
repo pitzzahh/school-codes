@@ -47,4 +47,14 @@ public class AddressBookEntry {
     public void setEmailAddress(EmailAddress emailAddress) {
         this.emailAddress = emailAddress;
     }
+
+    @Override
+    public String toString() {
+        return "AddressBookEntry{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", telephoneNumber=" + telephoneNumber +
+                ", emailAddress=" + emailAddress +
+                '}';
+    }
 }
