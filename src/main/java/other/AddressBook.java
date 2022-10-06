@@ -1,24 +1,26 @@
 package other;
 
+import io.github.pitzzahh.utilities.Print;
 import java.util.Arrays;
 import java.util.Objects;
+import lombok.Data;
 
+@Data
 public class AddressBook {
     private AddressBookEntry[] ENTRIES = new AddressBookEntry[10];
     private AddressBookEntry book;
+    private int SIZE_OF_ARRAY = ENTRIES.length;
     private boolean isAdding = false;
 
     public void addEntry(AddressBookEntry entry) {
-        if (ENTRIES.length > 999_999) throw new IllegalStateException("Exceeded max entries");
+        if (ENTRIES.length > 100_000) throw new IllegalStateException("Exceeded max entries");
         book = entry;
         System.out.println("book = " + book.toString());
         addToEntry();
     }
 
     private void addToEntry() {
-        Objects.requireNonNull(book);
-
-        final var SIZE_OF_ARRAY = ENTRIES.length;
+        Objects.requireNonNull(book, "book cannot be null");
 
         var currentSize = Arrays
                 .stream(ENTRIES)
@@ -35,7 +37,7 @@ public class AddressBook {
 
     private void increaseArraySize() {
         if (isAdding) {
-            ENTRIES = Arrays.copyOf(ENTRIES, ENTRIES.length + 10);
+            ENTRIES = Arrays.copyOf(ENTRIES, SIZE_OF_ARRAY += 5);
         }
     }
 
@@ -45,12 +47,23 @@ public class AddressBook {
 
     public static void main(String[] args) {
 
-        AddressBook addressBook = new AddressBook();
+        var addressBook = new AddressBook();
 
-        for (int i = 0; i < 15; i++) {
+        var entry = new AddressBookEntry(
+                "Peter John",
+                "Earth",
+                143,
+                new EmailAddress("pitzzahh", "gmail.com")
+        );
+
+        addressBook.addEntry(entry);
+        for (int i = 1; i <= 15; i++) {
             addressBook.addEntry(new AddressBookEntry());
         }
-        AddressBookEntry[] entries = addressBook.getENTRIES();
-        System.out.println(Arrays.toString(entries));
+
+        var entries = addressBook.getENTRIES();
+
+        Arrays.stream(entries)
+                .forEach(Print::println);
     }
 }
