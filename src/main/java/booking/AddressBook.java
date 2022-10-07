@@ -1,4 +1,4 @@
-package other;
+package booking;
 
 import io.github.pitzzahh.utilities.Print;
 import java.util.Arrays;
