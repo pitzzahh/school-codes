@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -131,6 +132,16 @@ public class DynamicArray<T> {
         return this.balloon.length;
     }
 
+    /**
+     * Sorts the dynamic array.
+     * @param ascending if sorting is ascending.
+     */
+    public void sort(boolean ascending) {
+        removeNulls();
+        if (!ascending) this.balloon = stream(this.balloon).sorted(Collections.reverseOrder()).toArray();
+        else this.balloon = stream(this.balloon).sorted().toArray();
+    }
+
     // Internal implementation of getting the index of an element in the dynamic array.
     private int getIndex(T element) {
         return range(0, size())
@@ -158,6 +169,14 @@ public class DynamicArray<T> {
                         .toArray(),
                 size + 10
         );
+    }
+
+    // Internal implementation that removes null from the dynamic array.
+    private void removeNulls() {
+        this.balloon = stream(this.balloon)
+                .parallel()
+                .filter(Objects::nonNull)
+                .toArray();
     }
 
     // Internal utility method, checks if index is out of bound.
