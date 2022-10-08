@@ -1,57 +1,184 @@
 package list;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.function.Consumer;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.IntStream.range;
+import static java.util.Arrays.copyOf;
+import static java.util.Arrays.stream;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.Objects;
 
-// TODO: continue functionalities
+/**
+ * Class that functions same as an array but the size increases.
+ * @param <T> the type of the dynamic array.
+ */
+// TODO: write test.
+@SuppressWarnings("ALL")
 public class DynamicArray<T> {
 
-    transient Object[] array;
+    /**
+     * The array where the elements are stored.
+     * Called balloon because balloon expands as you add air to it.
+     */
+    transient Object[] balloon;
 
+    /**
+     * Default size of the dynamic array.
+     */
     private final int DEFAULT_SIZE = 10;
 
+    /**
+     * Placeholder of the size of the array.
+     */
     private int size;
 
+    /**
+     * No args dynamic array. Sets the dynamic array size to default size of 10.
+     */
     public DynamicArray() {
-        this.array = new Object[]{};
+        this.balloon = new Object[DEFAULT_SIZE];
     }
 
+    /**
+     * Creates a {@code DynamicArray} object with an initial size
+     * @param initialSize the initial size of the array.
+     */
     public DynamicArray(int initialSize) {
-        if (initialSize > 0) this.array = new Object[initialSize];
-        else if (initialSize == 0) this.array = new Object[]{};
+        if (initialSize > 0) this.balloon = new Object[initialSize];
+        else if (initialSize == 0) this.balloon = new Object[]{};
         else throw new IllegalArgumentException("Illegal Capacity: " + initialSize);
     }
 
-    private final Consumer<T> insert = this::add;
+    /**
+     * Insert an element in the dynamic array.
+     * @param element the element to be inserted.
+     * @return {@code true} if inserted successfully.
+     */
+    public boolean insert(T element) {
+        this.add(element);
+        return true;
+    }
 
-    private final Supplier<Integer> getCurrentSize = () -> (int) Arrays.stream(array)
+    /**
+     * Inserts an array of elements in the dynamic array.
+     * @param elements the element to be inserted.
+     * @return {@code true} if inserted successfully.
+     */
+    public boolean insert(T... elements) {
+        range(0, elements.length)
+                .forEach(i -> this.add(elements[i]));
+        return true;
+    }
+
+    /**
+     * Removes an element in the dynamic array.
+     * @param element the element to be removed.
+     * @return {@code true} if removed successfully.
+     */
+    public boolean remove(T element) {
+        requireNonNull(element, "Argument cannot be null");
+        var index = getIndex(element);
+        if (index == -1) return false;
+        this.balloon[index] = null;
+        trimAndGrow();
+        return true;
+    }
+
+    /**
+     * Removes an element in a specific index.
+     * @param index the index of the element to be removed.
+     * @return {@code true} if the element has been removed.
+     */
+    public boolean remove(int index) {
+        checkBounds(index);
+        this.balloon[index] = null;
+        trimAndGrow();
+        return true;
+    }
+
+    public boolean removeAll() {
+        this.balloon = new Object[DEFAULT_SIZE];
+        return true;
+    }
+
+    /**
+     * Returns the index of the element in the dynamic array.
+     * @param element the element to search for the index.
+     * @return the index of the element in the dynamic array. If index is not present, returns -1.
+     */
+    public int indexOf(T element) {
+        requireNonNull(element, "Argument cannot be null");
+        return getIndex(element);
+    }
+
+    /**
+     * Get the element at a specific index.
+     * @param index the index of the element.
+     * @return the element {@link  T} in the dynamic array.
+     */
+    public T get(int index) {
+        checkBounds(index);
+        return (T) this.balloon[index];
+    }
+
+    /**
+     * Get the size of the dynamic array.
+     * @return {@code int} contains the size of the dynamic array.
+     */
+    public int size() {
+        return this.balloon.length;
+    }
+
+    // Internal implementation of getting the index of an element in the dynamic array.
+    private int getIndex(T element) {
+        return range(0, size())
+                .filter(i -> this.balloon[i] != null)
+                .filter(i -> this.balloon[i].equals(element))
+                .findAny()
+                .orElse(-1);
+    }
+
+    // Internal implementation of adding element in the dynamic array.
+    private void add(T element) {
+        requireNonNull(element, "Argument cannot be null");
+        var size = getCurrentSize.get();
+        if (isFull.test(size)) trimAndGrow();
+        balloon[size] = element;
+    }
+
+    // Internal implementation that trims the dynamic array and grow the length by 10.
+    private void trimAndGrow() {
+        var size = getCurrentSize.get();
+        this.balloon = copyOf(
+                stream(this.balloon)
+                        .parallel()
+                        .filter(Objects::nonNull)
+                        .toArray(),
+                size + 10
+        );
+    }
+
+    // Internal utility method, checks if index is out of bound.
+    private void checkBounds(int index) {
+        if (isOutOfBounds.apply(index)) throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+    }
+
+    // Internal implementation that checks filters non null objects and count them.
+    private final Supplier<Integer> getCurrentSize = () -> (int) stream(balloon)
+            .parallel()
             .filter(Objects::nonNull)
             .count();
+    // Internal implementation that checks if the dynamic array is full.
+    private final Predicate<Integer> isFull = currentElements -> currentElements >= size();
 
-    private final Supplier<Boolean> isFull = () -> getCurrentSize.get() >= size;
-
-    public boolean insert(T element) {
-        this.insert.accept(element);
-        return true;
-    }
-
-    public boolean insert(T element, int position) {
-        this.insert.accept(element);
-        return true;
-    }
-
-    private void add(T element) {
-        Objects.requireNonNull(element, "Argument cannot be null");
-        if (isFull.get()) array = Arrays.copyOf(array, getCurrentSize.get() + 5);
-        array[getCurrentSize.get()] = element;
-    }
+    // Internal implementation that checks if the index is out of bounds.
+    private final Function<Integer, Boolean> isOutOfBounds = index -> index > getCurrentSize.get() || index < 0;
 
     @Override
     public String toString() {
-        return Arrays.stream(array)
+        return stream(balloon)
                 .filter(Objects::nonNull)
                 .map(String::valueOf)
                 .collect(Collectors.joining(", ", "[", "]"));
