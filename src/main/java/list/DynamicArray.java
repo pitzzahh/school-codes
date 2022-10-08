@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.IntStream.range;
 import static java.util.Arrays.copyOf;
 import static java.util.Arrays.stream;
-import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.Objects;
@@ -14,8 +14,6 @@ import java.util.Objects;
  * Class that functions same as an array but the size increases.
  * @param <T> the type of the dynamic array.
  */
-// TODO: write test.
-@SuppressWarnings("ALL")
 public class DynamicArray<T> {
 
     /**
@@ -66,7 +64,8 @@ public class DynamicArray<T> {
      * @param elements the element to be inserted.
      * @return {@code true} if inserted successfully.
      */
-    public boolean insert(T... elements) {
+    @SafeVarargs
+    public final boolean insert(T... elements) {
         range(0, elements.length)
                 .forEach(i -> this.add(elements[i]));
         return true;
@@ -118,6 +117,7 @@ public class DynamicArray<T> {
      * @param index the index of the element.
      * @return the element {@link  T} in the dynamic array.
      */
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         checkBounds(index);
         return (T) this.balloon[index];
@@ -165,7 +165,7 @@ public class DynamicArray<T> {
         if (isOutOfBounds.apply(index)) throw new IndexOutOfBoundsException("Index out of bounds: " + index);
     }
 
-    // Internal implementation that checks filters non null objects and count them.
+    // Internal implementation that checks filters non-null objects and count them.
     private final Supplier<Integer> getCurrentSize = () -> (int) stream(balloon)
             .parallel()
             .filter(Objects::nonNull)
