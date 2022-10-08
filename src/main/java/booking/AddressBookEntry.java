@@ -1,14 +1,12 @@
 package booking;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class AddressBookEntry {
     private String name;
     private String address;
