@@ -1,15 +1,18 @@
 import list.DynamicArray;
 
-import static java.util.stream.IntStream.rangeClosed;
+import static io.github.pitzzahh.utilities.Print.println;
 
 public class Main {
 
     public static void main(String[] args) {
-        DynamicArray<Integer> list = new DynamicArray<>();
+        var list = new DynamicArray<Integer>();
 
-        rangeClosed(1, 15).forEach(list::insert);
+        list.insert(1, 3, 2, -1, 25);
+        println(list);
 
-        System.out.println(list);
+        list.sort(true);
+        println(list);
+
     }
 
 }
