@@ -1,4 +1,4 @@
-package list;
+package dynamicArray;
 
 import static io.github.pitzzahh.utilities.Print.println;
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DynamicArrayTest {
 
-    private final DynamicArray<Integer> array = new DynamicArray<>(5);
+    private final DynamicArray<Integer> array = new DynamicArray<>();
 
     @Test
     @Order(1)
@@ -33,7 +33,7 @@ class DynamicArrayTest {
     @Test
     @Order(4)
     void shouldPassIfSizeIsTheSame() {
-        assertEquals(15, array.size());
+        assertEquals(5, array.size());
     }
 
     public boolean insert() {
