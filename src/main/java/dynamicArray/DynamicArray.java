@@ -16,7 +16,7 @@ import java.util.*;
  * Class that functions same as an array but the size increases.
  * @param <T> the type of the dynamic array.
  */
-public class DynamicArray<T> implements Serializable {
+public final class DynamicArray<T> implements Serializable {
 
     /**
      * The array where the elements are stored.
@@ -61,8 +61,8 @@ public class DynamicArray<T> implements Serializable {
     @SafeVarargs
     public final boolean insert(T... elements) {
         modificationCount += elements.length;
-        range(0, elements.length).forEach(index -> this.add(elements[index]));
-        return size() == modificationCount;
+        Arrays.stream(elements).forEachOrdered(this::add);
+        return size() == elements.length;
     }
 
     /**
@@ -107,11 +107,9 @@ public class DynamicArray<T> implements Serializable {
 
     /**
      * Removes all the elements in the dynamicArray.
-     * @return {@code true} if all the elements are removed.
      */
-    public boolean removeAll() {
+    public void removeAll() {
         this.balloon = new Object[] {};
-        return size() == 0;
     }
 
     /**
@@ -206,6 +204,7 @@ public class DynamicArray<T> implements Serializable {
         var size = getCurrentSize.get();
         removeNulls();
         this.balloon = copyOf(this.stream().toArray(), size + modificationCount);
+        modificationCount = 0;
         return size() == size;
     }
 
@@ -234,7 +233,6 @@ public class DynamicArray<T> implements Serializable {
 
     @Override
     public String toString() {
-        modificationCount = 0;
         return this.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", ", "[", "]"));
