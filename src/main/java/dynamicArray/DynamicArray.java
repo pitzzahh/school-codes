@@ -134,10 +134,11 @@ public class DynamicArray<T> implements Serializable {
 
     /**
      * Sorts the dynamic array.
-     * @param ascending if sorting is ascending.
+     * @param ascending if sorting is ascending, otherwise descending.
      */
     public void sort(boolean ascending) {
         removeNulls();
+        checkTypes();
         if (!ascending) this.balloon = this.stream()
                 .sorted(Collections.reverseOrder())
                 .toArray();
@@ -162,6 +163,13 @@ public class DynamicArray<T> implements Serializable {
                         Spliterator.ORDERED | Spliterator.IMMUTABLE
                 ), false
         );
+    }
+
+    // Internal implementation that checks if the dynamic array contains different types.
+    private void checkTypes() throws IllegalStateException {
+        var differentTypes = Arrays.stream(this.balloon)
+                .anyMatch(e -> !e.getClass().equals(this.balloon[0].getClass())); // mutability, for removal or change.
+        if (differentTypes) throw new IllegalStateException("Cannot sort different types in a dynamic array");
     }
 
     // Internal implementation of getting the index of an element in the dynamic array.
