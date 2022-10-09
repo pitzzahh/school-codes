@@ -1,6 +1,5 @@
 package dynamicArray;
 
-import static io.github.pitzzahh.utilities.Print.println;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
@@ -12,15 +11,13 @@ class DynamicArrayTest {
     @Test
     @Order(1)
     void shouldInsertElements() {
-        var inserted = insert();
-        assertTrue(inserted);
+        assertTrue(insert());
     }
 
     @Test
     @Order(2)
     void shouldRemoveAllElements() {
-        var removed = array.removeAll();
-        assertTrue(removed);
+        array.removeAll();
     }
 
     @Test
@@ -33,10 +30,11 @@ class DynamicArrayTest {
     @Test
     @Order(4)
     void shouldPassIfSizeIsTheSame() {
-        assertEquals(5, array.size());
+        assertTrue(insert());
+        assertEquals(11, array.size());
     }
 
-    public boolean insert() {
-        return array.insert(1, 2, 3, 4, 5);
+    private boolean insert() {
+        return array.insert(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
     }
 }
