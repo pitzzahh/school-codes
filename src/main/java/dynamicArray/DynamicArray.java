@@ -24,16 +24,13 @@ public class DynamicArray<T> implements Serializable {
      */
     transient Object[] balloon;
 
-    /**
-     * Default size of the dynamic array.
-     */
-    private final int DEFAULT_SIZE = 10;
+    transient int modificationCount;
 
     /**
      * No args dynamic array. Sets the dynamic array size to default size of 10.
      */
     public DynamicArray() {
-        this.balloon = new Object[DEFAULT_SIZE];
+        this.balloon = new Object[] {};
     }
 
     /**
@@ -52,8 +49,8 @@ public class DynamicArray<T> implements Serializable {
      * @return {@code true} if inserted successfully.
      */
     public boolean insert(T element) {
-        this.add(element);
-        return true;
+        modificationCount++;
+        return this.add(element);
     }
 
     /**
@@ -63,9 +60,9 @@ public class DynamicArray<T> implements Serializable {
      */
     @SafeVarargs
     public final boolean insert(T... elements) {
-        range(0, elements.length)
-                .forEach(i -> this.add(elements[i]));
-        return true;
+        modificationCount += elements.length;
+        range(0, elements.length).forEach(index -> this.add(elements[index]));
+        return size() == modificationCount;
     }
 
     /**
@@ -75,11 +72,26 @@ public class DynamicArray<T> implements Serializable {
      */
     public boolean remove(T element) {
         requireNonNull(element, "Argument cannot be null");
-        var index = getIndex(element);
+        var index = indexOf(element);
         if (index == -1) return false;
         this.balloon[index] = null;
+        return trimAndGrow();
+    }
+
+    /**
+     * Removes an element in the dynamic array and returns it.
+     * @param element the element to be removed.
+     * @return {@code T} the removed element.
+     */
+    @SuppressWarnings("unchecked")
+    public T removeAndGet(T element) {
+        requireNonNull(element, "Argument cannot be null");
+        final var index = indexOf(element);
+        var toBeRemoved = (T) new Object();
+        if (index != -1) toBeRemoved = get(index);
+        this.balloon[index] = null;
         trimAndGrow();
-        return true;
+        return toBeRemoved;
     }
 
     /**
@@ -90,8 +102,7 @@ public class DynamicArray<T> implements Serializable {
     public boolean remove(int index) {
         checkBounds(index);
         this.balloon[index] = null;
-        trimAndGrow();
-        return true;
+        return trimAndGrow();
     }
 
     /**
@@ -99,8 +110,8 @@ public class DynamicArray<T> implements Serializable {
      * @return {@code true} if all the elements are removed.
      */
     public boolean removeAll() {
-        this.balloon = new Object[]{};
-        return true;
+        this.balloon = new Object[] {};
+        return size() == 0;
     }
 
     /**
@@ -148,7 +159,7 @@ public class DynamicArray<T> implements Serializable {
     }
 
     /**
-     * Puts the object to abstraction.
+     * Puts the dynamic array to abstraction.
      * @return a {@code Stream<T>} of objects.
      * @see Stream
      * @see Spliterators
@@ -182,29 +193,25 @@ public class DynamicArray<T> implements Serializable {
     }
 
     // Internal implementation of adding element in the dynamic array.
-    private void add(T element) {
+    private boolean add(T element) {
         requireNonNull(element, "Argument cannot be null");
         var size = getCurrentSize.get();
         if (isFull.test(size)) trimAndGrow();
         balloon[size] = element;
+        return size == indexOf(element);
     }
 
     // Internal implementation that trims the dynamic array and grow the length by 10.
-    private void trimAndGrow() {
+    private boolean trimAndGrow() {
         var size = getCurrentSize.get();
         removeNulls();
-        this.balloon = copyOf(
-                this.stream()
-                        .parallel()
-                        .toArray(),
-                size + 10
-        );
+        this.balloon = copyOf(this.stream().toArray(), size + modificationCount);
+        return size() == size;
     }
 
     // Internal implementation that removes null from the dynamic array.
     private void removeNulls() {
         this.balloon = this.stream()
-                .parallel()
                 .filter(Objects::nonNull)
                 .toArray();
     }
@@ -216,7 +223,6 @@ public class DynamicArray<T> implements Serializable {
 
     // Internal implementation that checks filters non-null objects and count them.
     private final Supplier<Integer> getCurrentSize = () -> (int) this.stream()
-            .parallel()
             .filter(Objects::nonNull)
             .count();
 
@@ -228,8 +234,8 @@ public class DynamicArray<T> implements Serializable {
 
     @Override
     public String toString() {
+        modificationCount = 0;
         return this.stream()
-                .filter(Objects::nonNull)
                 .map(String::valueOf)
                 .collect(Collectors.joining(", ", "[", "]"));
     }
