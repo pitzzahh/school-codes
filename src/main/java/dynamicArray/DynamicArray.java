@@ -1,21 +1,22 @@
-package list;
+package dynamicArray;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.IntStream.range;
-import static java.util.Arrays.copyOf;
-import static java.util.Arrays.stream;
+import java.util.stream.StreamSupport;
 import java.util.function.Predicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.Collections;
-import java.util.Objects;
+import static java.util.Arrays.*;
+import java.util.stream.Stream;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Class that functions same as an array but the size increases.
  * @param <T> the type of the dynamic array.
  */
-public class DynamicArray<T> {
+public class DynamicArray<T> implements Serializable {
 
     /**
      * The array where the elements are stored.
@@ -27,11 +28,6 @@ public class DynamicArray<T> {
      * Default size of the dynamic array.
      */
     private final int DEFAULT_SIZE = 10;
-
-    /**
-     * Placeholder of the size of the array.
-     */
-    private int size;
 
     /**
      * No args dynamic array. Sets the dynamic array size to default size of 10.
@@ -98,8 +94,12 @@ public class DynamicArray<T> {
         return true;
     }
 
+    /**
+     * Removes all the elements in the dynamicArray.
+     * @return {@code true} if all the elements are removed.
+     */
     public boolean removeAll() {
-        this.balloon = new Object[DEFAULT_SIZE];
+        this.balloon = new Object[]{};
         return true;
     }
 
@@ -138,8 +138,30 @@ public class DynamicArray<T> {
      */
     public void sort(boolean ascending) {
         removeNulls();
-        if (!ascending) this.balloon = stream(this.balloon).sorted(Collections.reverseOrder()).toArray();
-        else this.balloon = stream(this.balloon).sorted().toArray();
+        if (!ascending) this.balloon = this.stream()
+                .sorted(Collections.reverseOrder())
+                .toArray();
+        else this.balloon = this.stream()
+                .sorted()
+                .toArray();
+    }
+
+    /**
+     * Puts the object to abstraction.
+     * @return a {@code Stream<T>} of objects.
+     * @see Stream
+     * @see Spliterators
+     * @see StreamSupport
+     */
+    public Stream<T> stream() {
+        return StreamSupport.stream(
+                Spliterators.spliterator(
+                        this.balloon,
+                        0,
+                        size(),
+                        Spliterator.ORDERED | Spliterator.IMMUTABLE
+                ), false
+        );
     }
 
     // Internal implementation of getting the index of an element in the dynamic array.
@@ -162,10 +184,10 @@ public class DynamicArray<T> {
     // Internal implementation that trims the dynamic array and grow the length by 10.
     private void trimAndGrow() {
         var size = getCurrentSize.get();
+        removeNulls();
         this.balloon = copyOf(
-                stream(this.balloon)
+                this.stream()
                         .parallel()
-                        .filter(Objects::nonNull)
                         .toArray(),
                 size + 10
         );
@@ -173,7 +195,7 @@ public class DynamicArray<T> {
 
     // Internal implementation that removes null from the dynamic array.
     private void removeNulls() {
-        this.balloon = stream(this.balloon)
+        this.balloon = this.stream()
                 .parallel()
                 .filter(Objects::nonNull)
                 .toArray();
@@ -185,10 +207,11 @@ public class DynamicArray<T> {
     }
 
     // Internal implementation that checks filters non-null objects and count them.
-    private final Supplier<Integer> getCurrentSize = () -> (int) stream(balloon)
+    private final Supplier<Integer> getCurrentSize = () -> (int) this.stream()
             .parallel()
             .filter(Objects::nonNull)
             .count();
+
     // Internal implementation that checks if the dynamic array is full.
     private final Predicate<Integer> isFull = currentElements -> currentElements >= size();
 
@@ -197,7 +220,7 @@ public class DynamicArray<T> {
 
     @Override
     public String toString() {
-        return stream(balloon)
+        return this.stream()
                 .filter(Objects::nonNull)
                 .map(String::valueOf)
                 .collect(Collectors.joining(", ", "[", "]"));
