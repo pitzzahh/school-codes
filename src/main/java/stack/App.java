@@ -22,8 +22,8 @@ public class App {
             evaluate(trimmed);
         }
         else if (isOperator(String.valueOf(trimmed.charAt(count)))) {
-            int a = stack.pop(); // 6
-            int b = stack.pop(); // 4
+            int a = stack.pop(); // 4
+            int b = stack.pop(); // 6
             int result = 0;
             switch (trimmed.charAt(count)) {
                 case '+' -> result = a + b;
