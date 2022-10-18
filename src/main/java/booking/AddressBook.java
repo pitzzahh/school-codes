@@ -1,6 +1,6 @@
 package booking;
 
-import io.github.pitzzahh.utilities.Print;
+import io.github.pitzzahh.util.utilities.Print;
 import java.util.Arrays;
 import java.util.Objects;
 import lombok.Data;

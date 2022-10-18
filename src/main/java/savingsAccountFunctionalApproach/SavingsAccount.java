@@ -3,7 +3,7 @@ package savingsAccountFunctionalApproach;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import static io.github.pitzzahh.utilities.Print.printf;
+import static io.github.pitzzahh.util.utilities.Print.printf;
 import static savingsAccountFunctionalApproach.RunSavingAccount.getCurrencySymbol;
 
 /**
