@@ -4,6 +4,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * @author Peter John Arao
+ * using recursive functions
+ */
 public class Pitzzahh {
 
     public static void main(String[] args) {
