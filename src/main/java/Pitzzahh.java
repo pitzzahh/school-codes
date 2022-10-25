@@ -1,4 +1,3 @@
-package stack;
 
 import java.util.Stack;
 import java.util.Scanner;
@@ -29,12 +28,16 @@ public class Pitzzahh {
     }
 
     private static void insertFruit(Stack<String> basket, String fruit) {
-        switch (fruit) {
-            case "A", "a" -> basket.push("Apple");
-            case "O", "o" -> basket.push("Orange");
-            case "M", "m" -> basket.push("Mango");
-            case "G", "g" -> basket.push("Guava");
-            default -> System.out.println("Invalid input. Please enter A, O, M or G.");
+        if ("A".equals(fruit) || "a".equals(fruit)) {
+            basket.push("Apple");
+        } else if ("O".equals(fruit) || "o".equals(fruit)) {
+            basket.push("Orange");
+        } else if ("M".equals(fruit) || "m".equals(fruit)) {
+            basket.push("Mango");
+        } else if ("G".equals(fruit) || "g".equals(fruit)) {
+            basket.push("Guava");
+        } else {
+            System.out.println("Invalid input. Please enter A, O, M or G.");
         }
     }
 
