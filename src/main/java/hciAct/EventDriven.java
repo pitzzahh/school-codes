@@ -2,9 +2,9 @@ package hciAct;
 
 import javax.swing.*;
 
-public class Application extends JFrame {
+public class EventDriven extends JFrame {
     // create a JFrame that ask for user input
-    public Application() {
+    public EventDriven() {
         // create a JFrame
         JFrame frame = new JFrame("Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -15,6 +15,6 @@ public class Application extends JFrame {
 
     public static void main(String[] args) {
         // create a new Application
-        new Application();
+        new EventDriven();
     }
 }
