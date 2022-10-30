@@ -1,14 +1,12 @@
 package queue;
 
-import static io.github.pitzzahh.util.utilities.Print.print;
-import static java.lang.String.valueOf;
+import static io.github.pitzzahh.util.utilities.Print.println;
+import static java.util.stream.Collectors.joining;
 import java.util.LinkedList;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CNode <T extends Comparable<T>> extends Node<T> {
     protected  Node<T> root;
-
+    protected LinkedList<T> linkedList = new LinkedList<>();
     public CNode(Node<T> root) {
         this.root = root;
     }
@@ -24,7 +22,10 @@ public class CNode <T extends Comparable<T>> extends Node<T> {
     }
 
     public void visit(Node<T> previous) {
-        print(previous.element + ", ");
+        linkedList.add(previous.element);
+        println(linkedList.stream()
+                .map(String::valueOf)
+                .collect(joining(", ")));
     }
 
     public Node<T> search(T element) {
@@ -49,21 +50,35 @@ public class CNode <T extends Comparable<T>> extends Node<T> {
                 if (previous.right != null) queue.offer(previous.right);
             }
         }
+
     }
 
     public static void main(String[] args) {
-        var root = new Node<>(1);
+        var root = new Node<>("B");
 
-        var two = new Node<>(2);
-        var three = new Node<>(3);
-        var four = new Node<>(4);
-        var five = new Node<>(5);
+        var e = new Node<>("E");
+        var r = new Node<>("R");
+        var o = new Node<>("O");
+        var n = new Node<>("N");
+        var i = new Node<>("I");
+        var k = new Node<>("K");
+        var a = new Node<>("A");
+        var q = new Node<>("Q");
+        var t = new Node<>("T");
 
-        root.left = two;
-        root.right = three;
+        root.left = e;
+        root.right = r;
 
-        two.left = four;
-        two.right = five;
+        e.left = o;
+        e.right = n;
+
+        r.left = i;
+        r.right = k;
+
+        o.left = a;
+        o.right = q;
+
+        n.left = t;
 
         var cNode = new CNode<>(root);
         cNode.breadFirst();
