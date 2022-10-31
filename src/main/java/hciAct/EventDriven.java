@@ -87,12 +87,6 @@ public class EventDriven extends JFrame {
 
         setTitle("INPUT");
 
-        try {
-            Image img = ImageIO.read(new URL("https://cdn-icons-png.flaticon.com/512/4297/4297861.png?raw=true"));
-            setIconImage(new ImageIcon(img).getImage());
-        }
-        catch(Exception ignored) {}
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
@@ -209,11 +203,12 @@ public class EventDriven extends JFrame {
             outputTextArea.append(person.toString());
             outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 24));
 
-            JPanel buttonPanel = new JPanel(new GridLayout(1, 1));
+            JPanel buttonPanel = new JPanel();
 
             okayButton = new JButton("Okay");
             okayButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             okayButton.addActionListener(new ButtonOkay());
+
             buttonPanel.add(okayButton);
 
             outputFrame.setTitle("OUTPUT");
@@ -224,20 +219,12 @@ public class EventDriven extends JFrame {
             outputFrame.setLayout(new GridLayout(0, 1));
 
             outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            outputPanel.setLayout(new GridLayout(0, 1));
-
+            outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
 
             outputPanel.add(outputTextArea);
             outputPanel.add(buttonPanel);
 
-            try {
-                Image img = ImageIO.read(new URL("https://cdn-icons-png.flaticon.com/512/2436/2436683.png?raw=true"));
-                outputFrame.setIconImage(new ImageIcon(img).getImage());
-            }
-
-            catch(Exception ignored) {}
-            outputFrame.add(outputPanel);
-
+            outputFrame.add(outputPanel, BorderLayout.CENTER);
 
             outputFrame.pack();
 
