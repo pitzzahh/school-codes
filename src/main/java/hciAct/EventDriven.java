@@ -1,13 +1,15 @@
 package hciAct;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import java.net.URL;
+import java.awt.*;
 
 /**
  * HCI - Event Driven
+ * Might Be slow because frame icon image will be downloaded(if internet is available)
+ * Does not set icons if internet is not available
  * @author Peter John Arao
  */
 public class EventDriven extends JFrame {
@@ -84,6 +86,13 @@ public class EventDriven extends JFrame {
         buttonsPanel.add(clearButton);
 
         setTitle("INPUT");
+
+        try {
+            Image img = ImageIO.read(new URL("https://cdn-icons-png.flaticon.com/512/4297/4297861.png?raw=true"));
+            setIconImage(new ImageIcon(img).getImage());
+        }
+        catch(Exception ignored) {}
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
@@ -217,9 +226,18 @@ public class EventDriven extends JFrame {
             outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             outputPanel.setLayout(new GridLayout(0, 1));
 
+
             outputPanel.add(outputTextArea);
-            outputFrame.add(outputPanel);
             outputPanel.add(buttonPanel);
+
+            try {
+                Image img = ImageIO.read(new URL("https://cdn-icons-png.flaticon.com/512/2436/2436683.png?raw=true"));
+                outputFrame.setIconImage(new ImageIcon(img).getImage());
+            }
+
+            catch(Exception ignored) {}
+            outputFrame.add(outputPanel);
+
 
             outputFrame.pack();
 
