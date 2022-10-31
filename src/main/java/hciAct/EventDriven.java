@@ -2,11 +2,10 @@ package hciAct;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.net.URL;
-import java.util.Arrays;
 
 /**
  * HCI - Event Driven
@@ -43,22 +42,27 @@ public class EventDriven extends JFrame {
 
 
     public EventDriven() {
-        innerPanel = new JPanel();
+        innerPanel = new MotionPanel(this);
 
         firstNameLabel = new JLabel("First Name");
         firstNameField = new JTextField(20);
+        setDefaultFont(firstNameField);
 
         lastNameLabel = new JLabel("Last Name");
         lastNameField = new JTextField(20);
+        setDefaultFont(lastNameField);
 
         middleNameLabel = new JLabel("Middle Name");
         middleNameField = new JTextField(20);
+        setDefaultFont(middleNameField);
 
         mobileNumberLabel = new JLabel("Mobile Number");
         mobileNumberField = new JTextField(20);
+        setDefaultFont(mobileNumberField);
 
         emailLabel = new JLabel("Email");
         emailField = new JTextField(20);
+        setDefaultFont(emailField);
 
         submitButton = new JButton("Submit");
         submitButton.addActionListener(new ButtonSubmit());
@@ -67,13 +71,15 @@ public class EventDriven extends JFrame {
         clearButton.addActionListener(new ButtonClearAll());
 
         Box box = Box.createHorizontalBox();
-        box.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
+        int length = getWidth() / 2;
+        box.setBorder(BorderFactory.createEmptyBorder(0, length, 0, 0));
         box.add(submitButton);
         box.add(clearButton);
 
         setTitle("INPUT");
+        setUndecorated(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(500, 800);
+        setSize(300, 300);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -125,12 +131,13 @@ public class EventDriven extends JFrame {
             );
 
             outputFrame = new JFrame();
-            outputPanel = new JPanel();
+            outputPanel = new MotionPanel(outputFrame);
             outputTextArea = new JTextArea();
 
+            outputFrame.setUndecorated(true);
             outputTextArea.setEditable(false);
             outputTextArea.append(person.toString());
-
+            outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 24));
             okayButton = new JButton("Okay");
             okayButton.addActionListener(new ButtonOkay());
 
@@ -144,7 +151,12 @@ public class EventDriven extends JFrame {
             outputPanel.setLayout(new GridLayout(0, 1));
 
             outputPanel.add(outputTextArea);
-            outputPanel.add(okayButton);
+
+            Box box = Box.createHorizontalBox();
+            box.add(okayButton, BorderLayout.CENTER);
+            int length = getWidth() / 2;
+            box.setBorder(BorderFactory.createEmptyBorder(0, length, 0, 0));
+            outputPanel.add(box, BorderLayout.CENTER);
 
             outputFrame.setContentPane(outputPanel);
 
@@ -165,9 +177,7 @@ public class EventDriven extends JFrame {
             mobileNumberField.setText("");
             emailField.setText("");
             e.setSource(this);
-            if (outputFrame.isVisible()) {
-                outputFrame.dispose();
-            }
+            if (outputFrame != null) if (outputFrame.isVisible()) outputFrame.dispose();
             submitButton.setEnabled(true);
         }
 
@@ -178,6 +188,38 @@ public class EventDriven extends JFrame {
         public void actionPerformed(ActionEvent e) {
             outputFrame.dispose();
             submitButton.setEnabled(true);
+            e.setSource(this);
+        }
+    }
+    class MotionPanel extends JPanel{
+        private Point initialClick;
+        private JFrame parent;
+
+        public MotionPanel(final JFrame parent){
+            this.parent = parent;
+
+            addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent e) {
+                    initialClick = e.getPoint();
+                    getComponentAt(initialClick);
+                }
+            });
+
+            addMouseMotionListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+
+                    int thisX = parent.getLocation().x;
+                    int thisY = parent.getLocation().y;
+
+                    int xMoved = e.getX() - initialClick.x;
+                    int yMoved = e.getY() - initialClick.y;
+
+                    int X = thisX + xMoved;
+                    int Y = thisY + yMoved;
+                    parent.setLocation(X, Y);
+                }
+            });
         }
     }
     protected class Person {
@@ -209,6 +251,14 @@ public class EventDriven extends JFrame {
                     "Mobile No. : " + mobileNumber + "\n" +
                     "Email      : " + email ;
         }
+    }
+
+    /**
+     * Sets the font of the specified component and all its children.
+     * @param component the component to set the font for
+     */
+    private void setDefaultFont(JTextComponent component) {
+        component.setFont(new Font("Arial", Font.PLAIN, 20));
     }
 
     public static void main(String[] args) {
