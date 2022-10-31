@@ -44,58 +44,54 @@ public class EventDriven extends JFrame {
     public EventDriven() {
         innerPanel = new JPanel();
 
-        firstNameLabel = new JLabel("First Name");
+        firstNameLabel = new JLabel("First Name", SwingConstants.CENTER);
+        firstNameLabel.setLayout(new FlowLayout(FlowLayout.CENTER));
         setDefaultFont(firstNameLabel, Font.BOLD, 15);
         firstNameField = new JTextField(TEXT_FIELD_LENGTH);
         setDefaultFont(firstNameField, Font.PLAIN, 12);
 
-        lastNameLabel = new JLabel("Last Name");
+        lastNameLabel = new JLabel("Last Name", SwingConstants.CENTER);
         setDefaultFont(lastNameLabel, Font.BOLD, 15);
         lastNameField = new JTextField(TEXT_FIELD_LENGTH);
         setDefaultFont(lastNameField, Font.PLAIN, 12);
 
-        middleNameLabel = new JLabel("Middle Name");
+        middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
         setDefaultFont(middleNameLabel, Font.BOLD, 15);
         middleNameField = new JTextField(TEXT_FIELD_LENGTH);
         setDefaultFont(middleNameField, Font.PLAIN, 12);
 
-        mobileNumberLabel = new JLabel("Mobile Number");
+        mobileNumberLabel = new JLabel("Mobile Number", SwingConstants.CENTER);
         setDefaultFont(mobileNumberLabel, Font.BOLD, 15);
         mobileNumberField = new JTextField(TEXT_FIELD_LENGTH);
         setDefaultFont(mobileNumberField, Font.PLAIN, 12);
 
-        emailLabel = new JLabel("Email");
+        emailLabel = new JLabel("Email", SwingConstants.CENTER);
         setDefaultFont(emailLabel, Font.BOLD, 15);
         emailField = new JTextField(TEXT_FIELD_LENGTH);
         setDefaultFont(emailField, Font.PLAIN, 12);
 
         submitButton = new JButton("Submit");
+        submitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         submitButton.addActionListener(new ButtonSubmit());
 
         clearButton = new JButton("Clear All");
+        clearButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         clearButton.addActionListener(new ButtonClearAll());
 
-        Box box = Box.createHorizontalBox();
-        int length = getWidth() / 2;
-        box.setBorder(BorderFactory.createEmptyBorder(0, length, 0, 0));
-        box.add(submitButton);
-        box.add(clearButton);
+        JPanel buttonsPanel = new JPanel(new GridLayout(1, 2));
+
+        buttonsPanel.add(submitButton);
+        buttonsPanel.add(clearButton);
 
         setTitle("INPUT");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(300, 300);
+        setSize(500, 500);
         setLocationRelativeTo(null);
-
-        try {
-            Image img = ImageIO.read(new URL("https://github.com/pitzzahh/point-of-sale/blob/220ccaa9681f18faa17a76b38ed6d91764303c5b/src/main/resources/loading.png?raw=true"));
-            setIconImage(new ImageIcon(img).getImage());
-        }
-        catch(Exception ignored) {}
 
         innerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         innerPanel.setLayout(new GridLayout(0, 1));
 
-        innerPanel.add(firstNameLabel);
+        innerPanel.add(firstNameLabel, Component.CENTER_ALIGNMENT);
         innerPanel.add(firstNameField);
 
         innerPanel.add(lastNameLabel);
@@ -110,10 +106,76 @@ public class EventDriven extends JFrame {
         innerPanel.add(emailLabel);
         innerPanel.add(emailField);
 
-        innerPanel.add(box);
+        innerPanel.add(buttonsPanel);
 
-        setContentPane(innerPanel);
+        add(innerPanel, BorderLayout.CENTER);
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
 
+                int width = getWidth();
+                int height = getHeight();
+
+                if (width >= 250 && height >= 320) {
+                    setDefaultFont(firstNameLabel, Font.BOLD, 15);
+                    setDefaultFont(firstNameField, Font.PLAIN, 12);
+
+                    setDefaultFont(lastNameLabel, Font.BOLD, 15);
+                    setDefaultFont(lastNameField, Font.PLAIN, 12);
+
+                    setDefaultFont(middleNameLabel, Font.BOLD, 15);
+                    setDefaultFont(middleNameField, Font.PLAIN, 12);
+
+                    setDefaultFont(mobileNumberLabel, Font.BOLD, 15);
+                    setDefaultFont(mobileNumberField, Font.PLAIN, 12);
+
+                    setDefaultFont(emailLabel, Font.BOLD, 15);
+                    setDefaultFont(emailField, Font.PLAIN, 12);
+
+                    setDefaultFont(submitButton, Font.BOLD, 15);
+                    setDefaultFont(clearButton, Font.BOLD, 15);
+                }
+                if (width >= 400 && height >= 400) {
+                    setDefaultFont(firstNameLabel, Font.BOLD, 25);
+                    setDefaultFont(firstNameField, Font.PLAIN, 20);
+
+                    setDefaultFont(lastNameLabel, Font.BOLD, 25);
+                    setDefaultFont(lastNameField, Font.PLAIN, 20);
+
+                    setDefaultFont(middleNameLabel, Font.BOLD, 25);
+                    setDefaultFont(middleNameField, Font.PLAIN, 20);
+
+                    setDefaultFont(mobileNumberLabel, Font.BOLD, 25);
+                    setDefaultFont(mobileNumberField, Font.PLAIN, 20);
+
+                    setDefaultFont(emailLabel, Font.BOLD, 25);
+                    setDefaultFont(emailField, Font.PLAIN, 20);
+
+                    setDefaultFont(submitButton, Font.BOLD, 25);
+                    setDefaultFont(clearButton, Font.BOLD, 25);
+                }
+                if (width >= 1000 && height >= 700) {
+                    setDefaultFont(firstNameLabel, Font.BOLD, 35);
+                    setDefaultFont(firstNameField, Font.PLAIN, 30);
+
+                    setDefaultFont(lastNameLabel, Font.BOLD, 35);
+                    setDefaultFont(lastNameField, Font.PLAIN, 30);
+
+                    setDefaultFont(middleNameLabel, Font.BOLD, 35);
+                    setDefaultFont(middleNameField, Font.PLAIN, 30);
+
+                    setDefaultFont(mobileNumberLabel, Font.BOLD, 35);
+                    setDefaultFont(mobileNumberField, Font.PLAIN, 30);
+
+                    setDefaultFont(emailLabel, Font.BOLD, 35);
+                    setDefaultFont(emailField, Font.PLAIN, 30);
+
+                    setDefaultFont(submitButton, Font.BOLD, 35);
+                    setDefaultFont(clearButton, Font.BOLD, 35);
+                }
+            }
+        });
         pack();
     }
 
@@ -125,44 +187,52 @@ public class EventDriven extends JFrame {
             Person person = new Person(
                     firstNameField.getText().trim(),
                     lastNameField.getText().trim(),
-                    middleNameField.getText().trim().isEmpty() ? null : middleNameField.getText().trim(),
+                    middleNameField.getText().trim(),
                     mobileNumberField.getText().trim(),
                     emailField.getText().trim()
             );
 
-            outputFrame = new JFrame();
+            outputFrame = new JFrame(BorderLayout.CENTER);
             outputPanel = new JPanel();
             outputTextArea = new JTextArea();
 
-            outputFrame.setTitle("OUTPUT");
             outputTextArea.setEditable(false);
             outputTextArea.append(person.toString());
             outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 24));
+
+            JPanel buttonPanel = new JPanel(new GridLayout(1, 1));
+
             okayButton = new JButton("Okay");
+            okayButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             okayButton.addActionListener(new ButtonOkay());
+            buttonPanel.add(okayButton);
 
             outputFrame.setTitle("OUTPUT");
             outputFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             outputFrame.setSize(500, 500);
             outputFrame.setLocationRelativeTo(null);
             outputFrame.setResizable(false);
+            outputFrame.setLayout(new GridLayout(0, 1));
 
             outputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             outputPanel.setLayout(new GridLayout(0, 1));
 
             outputPanel.add(outputTextArea);
-
-            Box box = Box.createHorizontalBox();
-            box.add(okayButton, BorderLayout.CENTER);
-            int length = getWidth() / 2;
-            box.setBorder(BorderFactory.createEmptyBorder(0, length, 0, 0));
-            outputPanel.add(box, BorderLayout.CENTER);
-
-            outputFrame.setContentPane(outputPanel);
+            outputFrame.add(outputPanel);
+            outputPanel.add(buttonPanel);
 
             outputFrame.pack();
 
             outputFrame.setVisible(true);
+
+            outputFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    super.windowClosed(e);
+                    submitButton.setEnabled(true);
+                }
+            });
+
         }
 
     }
@@ -192,25 +262,28 @@ public class EventDriven extends JFrame {
         }
     }
 
+    /**
+     * Class used to make Person objects from text fields.
+     */
     protected class Person {
 
-        protected String firstName;
-        protected String lastName;
-        protected String middleName;
-        protected String mobileNumber;
-        protected String email;
+        protected String firstName = "Default First Name";
+        protected String lastName = "Default Last Name";
+        protected String middleName = "Default Middle Name";
+        protected String mobileNumber = "Default Mobile Number";
+        protected String email = "Default Email";
 
         public Person(String firstName, String lastName, String middleName, String mobileNumber, String email) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.middleName = middleName;
-            this.mobileNumber = mobileNumber;
-            this.email = email;
+            if (!firstName.trim().isEmpty()) this.firstName = firstName;
+            if (!lastName.trim().isEmpty()) this.lastName = lastName;
+            if (!middleName.trim().isEmpty()) this.middleName = middleName;
+            if (!mobileNumber.trim().isEmpty()) this.mobileNumber = mobileNumber;
+            if (!email.trim().isEmpty()) this.email = email;
         }
 
         @Override
         public String toString() {
-            return middleName != null ?
+            return !middleName.equals("Default Middle Name") ?
                     "First Name : " + firstName  + "\n" +
                     "Last Name  : " + lastName   + "\n" +
                     "Middle Name: " + middleName + "\n" +
