@@ -1,4 +1,3 @@
-package hciAct;
 
 import javax.imageio.ImageIO;
 import java.awt.event.*;
@@ -76,12 +75,21 @@ public class EventDriven extends JFrame {
         submitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         submitButton.addActionListener(new ButtonSubmit());
 
+        submitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                if (!submitButton.isEnabled()) submitButton.setToolTipText("Cannot submit\nPleas Clear First Or close Output window");
+                else submitButton.setToolTipText("Submits the Inputted Texts");
+            }
+        });
+
         clearButton = new JButton("Clear All");
+        clearButton.setToolTipText("Clears all the Inputted Texts");
         clearButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         clearButton.addActionListener(new ButtonClearAll());
 
         JPanel buttonsPanel = new JPanel(new GridLayout(1, 2));
-
         buttonsPanel.add(submitButton);
         buttonsPanel.add(clearButton);
 
@@ -206,10 +214,11 @@ public class EventDriven extends JFrame {
             JPanel buttonPanel = new JPanel();
 
             okayButton = new JButton("Okay");
+            okayButton.setToolTipText("Return to Input");
             okayButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             okayButton.addActionListener(new ButtonOkay());
-
-            buttonPanel.add(okayButton);
+            buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+            buttonPanel.add(okayButton, Component.BOTTOM_ALIGNMENT);
 
             outputFrame.setTitle("OUTPUT");
             outputFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -288,7 +297,7 @@ public class EventDriven extends JFrame {
 
         @Override
         public String toString() {
-            return !middleName.equals("Default Middle Name") ?
+            return areAllEmpty() || !middleName.equals("Default Middle Name")?
                     "First Name : " + firstName  + "\n" +
                     "Last Name  : " + lastName   + "\n" +
                     "Middle Name: " + middleName + "\n" +
@@ -298,6 +307,14 @@ public class EventDriven extends JFrame {
                     "Last Name  : " + lastName   + "\n" +
                     "Mobile No. : " + mobileNumber + "\n" +
                     "Email      : " + email ;
+        }
+
+        private boolean areAllEmpty() {
+            return firstName.equals("Default First Name")      &&
+                    lastName.equals("Default Last Name")      &&
+                    middleName.equals("Default Middle Name")    &&
+                    mobileNumber.equals("Default Mobile Number")  &&
+                    email.equals("Default Email");
         }
     }
 
