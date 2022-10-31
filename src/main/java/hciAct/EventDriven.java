@@ -2,7 +2,6 @@ package hciAct;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
@@ -40,29 +39,35 @@ public class EventDriven extends JFrame {
     protected JTextArea outputTextArea;
     protected JButton okayButton;
 
+    private final int TEXT_FIELD_LENGTH = 20;
 
     public EventDriven() {
-        innerPanel = new MotionPanel(this);
+        innerPanel = new JPanel();
 
         firstNameLabel = new JLabel("First Name");
-        firstNameField = new JTextField(20);
-        setDefaultFont(firstNameField);
+        setDefaultFont(firstNameLabel, Font.BOLD, 15);
+        firstNameField = new JTextField(TEXT_FIELD_LENGTH);
+        setDefaultFont(firstNameField, Font.PLAIN, 12);
 
         lastNameLabel = new JLabel("Last Name");
-        lastNameField = new JTextField(20);
-        setDefaultFont(lastNameField);
+        setDefaultFont(lastNameLabel, Font.BOLD, 15);
+        lastNameField = new JTextField(TEXT_FIELD_LENGTH);
+        setDefaultFont(lastNameField, Font.PLAIN, 12);
 
         middleNameLabel = new JLabel("Middle Name");
-        middleNameField = new JTextField(20);
-        setDefaultFont(middleNameField);
+        setDefaultFont(middleNameLabel, Font.BOLD, 15);
+        middleNameField = new JTextField(TEXT_FIELD_LENGTH);
+        setDefaultFont(middleNameField, Font.PLAIN, 12);
 
         mobileNumberLabel = new JLabel("Mobile Number");
-        mobileNumberField = new JTextField(20);
-        setDefaultFont(mobileNumberField);
+        setDefaultFont(mobileNumberLabel, Font.BOLD, 15);
+        mobileNumberField = new JTextField(TEXT_FIELD_LENGTH);
+        setDefaultFont(mobileNumberField, Font.PLAIN, 12);
 
         emailLabel = new JLabel("Email");
-        emailField = new JTextField(20);
-        setDefaultFont(emailField);
+        setDefaultFont(emailLabel, Font.BOLD, 15);
+        emailField = new JTextField(TEXT_FIELD_LENGTH);
+        setDefaultFont(emailField, Font.PLAIN, 12);
 
         submitButton = new JButton("Submit");
         submitButton.addActionListener(new ButtonSubmit());
@@ -77,11 +82,9 @@ public class EventDriven extends JFrame {
         box.add(clearButton);
 
         setTitle("INPUT");
-        setUndecorated(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(300, 300);
         setLocationRelativeTo(null);
-        setResizable(false);
 
         try {
             Image img = ImageIO.read(new URL("https://github.com/pitzzahh/point-of-sale/blob/220ccaa9681f18faa17a76b38ed6d91764303c5b/src/main/resources/loading.png?raw=true"));
@@ -114,14 +117,11 @@ public class EventDriven extends JFrame {
         pack();
     }
 
-    class ButtonSubmit implements ActionListener {
+    protected class ButtonSubmit implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-
             submitButton.setEnabled(false);
-
             Person person = new Person(
                     firstNameField.getText().trim(),
                     lastNameField.getText().trim(),
@@ -131,10 +131,10 @@ public class EventDriven extends JFrame {
             );
 
             outputFrame = new JFrame();
-            outputPanel = new MotionPanel(outputFrame);
+            outputPanel = new JPanel();
             outputTextArea = new JTextArea();
 
-            outputFrame.setUndecorated(true);
+            outputFrame.setTitle("OUTPUT");
             outputTextArea.setEditable(false);
             outputTextArea.append(person.toString());
             outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 24));
@@ -167,7 +167,7 @@ public class EventDriven extends JFrame {
 
     }
 
-    class ButtonClearAll implements ActionListener {
+    protected class ButtonClearAll implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -183,7 +183,7 @@ public class EventDriven extends JFrame {
 
     }
 
-    class ButtonOkay implements ActionListener {
+    protected class ButtonOkay implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             outputFrame.dispose();
@@ -191,37 +191,7 @@ public class EventDriven extends JFrame {
             e.setSource(this);
         }
     }
-    class MotionPanel extends JPanel{
-        private Point initialClick;
-        private JFrame parent;
 
-        public MotionPanel(final JFrame parent){
-            this.parent = parent;
-
-            addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent e) {
-                    initialClick = e.getPoint();
-                    getComponentAt(initialClick);
-                }
-            });
-
-            addMouseMotionListener(new MouseMotionAdapter() {
-                @Override
-                public void mouseDragged(MouseEvent e) {
-
-                    int thisX = parent.getLocation().x;
-                    int thisY = parent.getLocation().y;
-
-                    int xMoved = e.getX() - initialClick.x;
-                    int yMoved = e.getY() - initialClick.y;
-
-                    int X = thisX + xMoved;
-                    int Y = thisY + yMoved;
-                    parent.setLocation(X, Y);
-                }
-            });
-        }
-    }
     protected class Person {
 
         protected String firstName;
@@ -257,8 +227,8 @@ public class EventDriven extends JFrame {
      * Sets the font of the specified component and all its children.
      * @param component the component to set the font for
      */
-    private void setDefaultFont(JTextComponent component) {
-        component.setFont(new Font("Arial", Font.PLAIN, 20));
+    private void setDefaultFont(JComponent component, int  style, int size) {
+        component.setFont(new Font("Arial", style, size));
     }
 
     public static void main(String[] args) {
