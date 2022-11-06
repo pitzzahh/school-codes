@@ -204,6 +204,12 @@ public class EventDriven extends JFrame {
                     emailField.getText().trim()
             );
 
+            firstNameField.setText("");
+            lastNameField.setText("");
+            middleNameField.setText("");
+            mobileNumberField.setText("");
+            emailField.setText("");
+
             outputFrame = new JFrame(BorderLayout.CENTER);
             outputPanel = new JPanel();
             outputTextArea = new JTextArea();
@@ -243,7 +249,6 @@ public class EventDriven extends JFrame {
             outputFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    super.windowClosed(e);
                     submitButton.setEnabled(true);
                 }
             });
