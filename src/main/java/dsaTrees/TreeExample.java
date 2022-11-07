@@ -2,7 +2,6 @@ package dsaTrees;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.*;
-import java.awt.event.WindowEvent;
 
 public class TreeExample extends JFrame {
 
