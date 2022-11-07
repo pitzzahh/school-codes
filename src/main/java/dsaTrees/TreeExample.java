@@ -2,6 +2,7 @@ package dsaTrees;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.*;
+import java.awt.event.WindowEvent;
 
 public class TreeExample extends JFrame {
 
@@ -41,6 +42,8 @@ public class TreeExample extends JFrame {
         JTree tree = new JTree(root);
         add(tree);
         setTitle("JTree Example By Peter John Arao");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         setSize(450, 350);
         setVisible(true);
     }
