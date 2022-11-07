@@ -47,7 +47,10 @@ public class MovieTime {
     // idk po AHHAHA
     // di man diit lang naga dl and ul
     // hahahaha baka maubos data mo
-    // ano n
+    // ano na susunod na gagawin mo?
+    // tree po then yung gui then yung basta activity po AHHAH
+    //hahahahha ako nagacheck
+    //patingin code mo python sa stacks
     private static void checkIsDone(Scanner scanner, Queue<String> snacks) {
         if (snacks.size() != 0) {
             System.out.print("Press S each time you finish a snack: ");
