@@ -1,90 +1,151 @@
 package peopleInSchool;
 
-import static peopleInSchool.CollegeList.PESO_SIGN;
-import java.util.Currency;
+import static peopleInSchool.CollegeList.FORMAT;
+
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 /**
+ * Using Java Generics to shorten the code.
  * @author Peter John Arao
  */
 public class CollegeList {
 
-    public static final String PESO_SIGN = Currency.getInstance("PHP").getSymbol();
+    public static final NumberFormat FORMAT = NumberFormat.getCurrencyInstance();
 
     public static void main(String[] args) {
         start(new Scanner(System.in));
     }
 
-    // TODO: continue
     private static void start(Scanner scanner) {
         System.out.print("Press E for Employee, F for Faculty, S for Student, or Q to quit: ");
         String input = scanner.nextLine();
-        if (input.trim().equalsIgnoreCase("Q")) System.out.println("Invalid input.");
-        else if ("E".equalsIgnoreCase(input.trim())) employee(scanner, createPerson(scanner));
-        else if ("F".equalsIgnoreCase(input.trim())) faculty(scanner, createPerson(scanner));
-        else if ("S".equalsIgnoreCase(input.trim())) student(scanner, createPerson(scanner));
-        else if ("Q".equalsIgnoreCase(input.trim())) System.exit(0);
+        Set<String> choices = Set.of("E", "F", "S", "Q", "e", "f", "s", "q");
+        if (!choices.contains(input.trim())) System.out.println("Invalid input.");
+        else if ("E".equalsIgnoreCase(input.trim())) {
+            Employee employee = employee(scanner);
+            printInfo(employee);
+        }
+        else if ("F".equalsIgnoreCase(input.trim())) {
+            Faculty faculty = faculty(scanner);
+            printInfo(faculty);
+        }
+        else if ("S".equalsIgnoreCase(input.trim())) {
+            student(scanner);
+        }
+        if ("Q".equalsIgnoreCase(input.trim())) System.exit(0);
+        else start(scanner);
     }
 
     /**
      * Invoked when the user wants to create an employee.
      * @param scanner the scanner to use.
-     * @param person the person to use.
      */
-    private static void employee(Scanner scanner, Person person) {
+    private static Employee employee(Scanner scanner) {
         Employee employee = new Employee();
-        System.out.print("Enter monthly salary      : ");
-        employee.setSalary(scanner.nextDouble());
+        createPerson(scanner, employee);
+        String salary;
+
+        do {
+            System.out.print("Enter monthly salary      : ");
+            salary = scanner.nextLine();
+            boolean isNumber = Pattern.compile("\\d+|\\d+\\.\\d+").matcher(salary).matches();
+            if (isNumber) break;
+            else System.out.println("NOT A NUMBER!");
+        } while (true);
+
+        employee.setSalary(Double.parseDouble(salary));
+
         System.out.print("Enter employee department : ");
         employee.setDepartment(scanner.nextLine());
-        printInfo(employee);
-        start(scanner);
+
+        return employee;
     }
 
     /**
      * Invoked when the user wants to create a faculty.
      * @param scanner the scanner to use.
-     * @param person the person to use.
      */
-    private static void faculty(Scanner scanner, Person person) {
-        start(scanner);
+    private static Faculty faculty(Scanner scanner) {
+        Faculty faculty = new Faculty();
+        Employee employee = employee(scanner);
+        faculty.setName(employee.getName());
+        faculty.setContactNumber(employee.getContactNumber());
+        faculty.setSalary(employee.getSalary());
+        faculty.setDepartment(employee.getDepartment());
+        do {
+            System.out.print("Is faculty regular        : ");
+            String isRegular = scanner.nextLine();
+            Set<String> yes = Set.of("Y", "y");
+            Set<String> no = Set.of("N", "n");
+            if (yes.contains(isRegular)) {
+                faculty.setStatus(true);
+                break;
+            }
+            else if (no.contains(isRegular)) {
+                faculty.setStatus(false);
+                break;
+            }
+            else System.out.println("Invalid input.");
+        } while (true);
+
+        return faculty;
     }
 
     /**
      * Invoked when the user wants to create a student.
      * @param scanner the scanner to use.
-     * @param person the person to use.
      */
-    private static void student(Scanner scanner, Person person) {
-        start(scanner);
+    private static Student student(Scanner scanner) {
+        Student student = new Student();
+        createPerson(scanner, student);
+
+        System.out.print("Enter Program              : ");
+        student.setProgram(scanner.nextLine());
+
+        do {
+            System.out.print("Enter year level           : ");
+            String yearLevel = scanner.nextLine();
+            boolean isNumber = Pattern.compile("^?(1)$|^(2)$|^(3)$|^(4)$").matcher(yearLevel).matches();
+            if (isNumber) {
+                student.setYearLevel(Integer.parseInt(yearLevel));
+                break;
+            }
+            else System.out.println("NOT A NUMBER!");
+        } while (true);
+
+        return student;
     }
 
     /**
      * Asked after the user has selected a person type.
      * @param scanner the scanner object.
-     * @return the person object.
      * @see #start(Scanner)
-     * @see #employee(Scanner, Person)
-     * @see #faculty(Scanner, Person)
-     * @see #student(Scanner, Person)
+     * @see #employee(Scanner)
+     * @see #faculty(Scanner)
+     * @see #student(Scanner)
      * @see Person
      */
-    private static Person createPerson(Scanner scanner) {
-        System.out.print("Enter name         : ");
+    private static <T extends Person> void createPerson(Scanner scanner, T personType) {
+        System.out.print("Enter name                : ");
         String name = scanner.nextLine();
 
-        System.out.print("Enter contact number: ");
+        System.out.print("Enter contact number      : ");
         String contactNumber = scanner.nextLine();
 
-        Person person = new Person();
-        person.setName(name);
-        person.setContactNumber(contactNumber);
-
-        return person;
+        personType.setName(name);
+        personType.setContactNumber(contactNumber);
     }
 
-    private static <T extends Person> void printInfo(T person) {
-        System.out.println(person);
+    /**
+     * Prints the {@code toString()} method implementations of each class.
+     * @param personType the type of person to print.
+     * @param <T> the type of person.
+     */
+    private static <T extends Person> void printInfo(T personType) {
+        System.out.println(personType);
     }
 }
 
@@ -114,8 +175,8 @@ class Person {
 
     @Override
     public String toString() {
-        return "NAME          : " + getName()          + "\n" +
-               "CONTACT NUMBER: " + getContactNumber() + "\n";
+        return "\n" +"NAME          : " + getName()          + "\n" +
+                     "CONTACT NUMBER: " + getContactNumber();
     }
 }
 
@@ -146,9 +207,19 @@ class Student extends Person {
 
     @Override
     public String toString() {
-        return super.toString() + "\n" +
-               "PROGRAM       : " + getProgram()      + "\n" +
-               "YEAR LEVEL    : " + getYearLevel()    + "\n";
+        return super.toString()                                                    + "\n" +
+               "PROGRAM       : " + getProgram()                                   + "\n" +
+               "YEAR LEVEL    : " + getYearLevel() + getYearLevelString(yearLevel) + "\n";
+    }
+
+    private String getYearLevelString(int yearLevel) {
+        return switch (yearLevel) {
+            case 1 -> "st Year";
+            case 2 -> "nd Year";
+            case 3 -> "rd Year";
+            case 4 -> "th Year";
+            default -> "Invalid Year Level";
+        };
     }
 }
 
@@ -179,9 +250,9 @@ class Employee extends Person {
 
     @Override
     public String toString() {
-        return super.toString() + "\n" +
-               "SALARY        : " + PESO_SIGN + getSalary()       + "\n" +
-               "DEPARTMENT    : " + getDepartment()   + "\n";
+        return super.toString()                                + "\n" +
+               "SALARY        : " + FORMAT.format(getSalary()) + "\n" +
+               "DEPARTMENT    : " + getDepartment();
     }
 }
 
@@ -197,15 +268,14 @@ class Faculty extends Employee {
         this.status = status;
     }
 
-    // TODO: find a way to know if the faculty is full-time (regular) or part-time
     public boolean isRegular() {
         return status;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "\n" +
-               "STATUS        : " + isRegular()       + "\n";
+        return "\n" + super.toString()                + "\n" +
+                     "STATUS        : " + isRegular() + "\n";
     }
 
 }
