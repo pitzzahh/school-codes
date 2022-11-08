@@ -1,11 +1,9 @@
 package peopleInSchool;
 
-import static peopleInSchool.CollegeList.FORMAT;
-
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.text.NumberFormat;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Using Java Generics to shorten the code.
@@ -20,7 +18,7 @@ public class CollegeList {
     }
 
     private static void start(Scanner scanner) {
-        System.out.print("Press E for Employee, F for Faculty, S for Student, or Q to quit: ");
+        System.out.print("Press E for peopleInSchool.Employee, F for peopleInSchool.Faculty, S for peopleInSchool.Student, or Q to quit: ");
         String input = scanner.nextLine();
         Set<String> choices = Set.of("E", "F", "S", "Q", "e", "f", "s", "q");
         if (!choices.contains(input.trim())) System.out.println("Invalid input.");
@@ -33,10 +31,14 @@ public class CollegeList {
             printInfo(faculty);
         }
         else if ("S".equalsIgnoreCase(input.trim())) {
-            student(scanner);
+            Student student = student(scanner);
+            printInfo(student);
         }
         if ("Q".equalsIgnoreCase(input.trim())) System.exit(0);
-        else start(scanner);
+        else {
+            start(scanner);
+            System.out.println();
+        }
     }
 
     /**
@@ -102,11 +104,11 @@ public class CollegeList {
         Student student = new Student();
         createPerson(scanner, student);
 
-        System.out.print("Enter Program              : ");
+        System.out.print("Enter Program             : ");
         student.setProgram(scanner.nextLine());
 
         do {
-            System.out.print("Enter year level           : ");
+            System.out.print("Enter year level          : ");
             String yearLevel = scanner.nextLine();
             boolean isNumber = Pattern.compile("^?(1)$|^(2)$|^(3)$|^(4)$").matcher(yearLevel).matches();
             if (isNumber) {
@@ -150,7 +152,7 @@ public class CollegeList {
 }
 
 /**
- * Person class (parent)
+ * peopleInSchool.Person class (parent)
  */
 class Person {
 
@@ -181,7 +183,7 @@ class Person {
 }
 
 /**
- * Student class (child of Person class)
+ * peopleInSchool.Student class (child of peopleInSchool.Person class)
  * @see Person
  */
 class Student extends Person {
@@ -224,7 +226,7 @@ class Student extends Person {
 }
 
 /**
- * Employee Class (child of Person class)
+ * peopleInSchool.Employee Class (child of peopleInSchool.Person class)
  * @see Person
  */
 class Employee extends Person {
@@ -251,13 +253,13 @@ class Employee extends Person {
     @Override
     public String toString() {
         return super.toString()                                + "\n" +
-               "SALARY        : " + FORMAT.format(getSalary()) + "\n" +
+               "SALARY        : " + CollegeList.FORMAT.format(getSalary()) + "\n" +
                "DEPARTMENT    : " + getDepartment();
     }
 }
 
 /**
- * Faculty Class (child of Employee class)
+ * peopleInSchool.Faculty Class (child of peopleInSchool.Employee class)
  * @see Employee
  */
 class Faculty extends Employee {
