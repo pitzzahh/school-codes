@@ -18,12 +18,12 @@ public class Atm {
         var service = new AtmService(new InMemory());
 
         service.saveClient()
-                .apply(makeTrexie());
+                .apply(makePeter());
 
-        getTrexie(service).ifPresent(Print::println);
+        getPeter(service).ifPresent(Print::println);
 
         var loan =  new Loan(
-                makeTrexie().accountNumber(),
+                makePeter().accountNumber(),
                 LocalDate.now(),
                 1000,
                 true
@@ -33,33 +33,34 @@ public class Atm {
         service.requestLoan().apply(loan);
         service.declineLoan().apply(loan);
 
-        var apply1 = service.getMessage().apply(makeTrexie().accountNumber());
+        var apply1 = service.getMessage()
+                .apply(makePeter().accountNumber());
 
         apply1.entrySet()
                 .stream()
-                .filter(e -> e.getKey().equals(makeTrexie().accountNumber()))
+                .filter(e -> e.getKey().equals(makePeter().accountNumber()))
                 .map(Map.Entry::getValue)
                 .flatMap(Collection::stream)
                 .toList()
                 .forEach(Print::println);
 
-        getTrexie(service).ifPresent(Print::println);
+        getPeter(service).ifPresent(Print::println);
     }
 
-    private static Optional<Client> getTrexie(AtmService service) {
-        return service.getClientByAccountNumber().apply(makeTrexie().accountNumber());
+    private static Optional<Client> getPeter(AtmService service) {
+        return service.getClientByAccountNumber().apply(makePeter().accountNumber());
     }
 
-    private static Client makeTrexie() {
+    private static Client makePeter() {
         return  new Client(
                 "123123123",
                 "123123",
                 new Person(
-                        "Trexie",
-                        "Preña",
-                        Gender.FEMALE,
+                        "Peter John",
+                        "Arao",
+                        Gender.MALE,
                         "Earth",
-                        LocalDate.of(2001, Month.OCTOBER, 10)
+                        LocalDate.of(2002, Month.AUGUST, 24)
                 ),
                 5000,
                 false
