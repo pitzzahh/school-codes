@@ -35,15 +35,15 @@ public class CollegeList {
         System.out.print("Enter employee department    : ");
         String department = scanner.nextLine().trim();
 
-        Employee employee = new Employee();
-
-        employee.setName(name);
-        employee.setContactNumber(contactNumber);
-
-        Pattern pattern = Pattern.compile("^(\\d+\\.\\d+|\\.\\d+|0\\.\\d+)$");
-        boolean isDouble = pattern.matcher(salary).matches();
-
-        if (isDouble) employee.setSalary(Double.parseDouble(salary));
+//        Employee employee = new Employee();
+//
+//        employee.setName(name);
+//        employee.setContactNumber(contactNumber);
+//
+//        Pattern pattern = Pattern.compile("^(\\d+\\.\\d+|\\.\\d+|0\\.\\d+)$");
+//        boolean isDouble = pattern.matcher(salary).matches();
+//
+//        if (isDouble) employee.setSalary(Double.parseDouble(salary));
 
     }
 }

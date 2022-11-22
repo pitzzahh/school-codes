@@ -56,7 +56,9 @@ public class Heaps {
      * Priority Queue with custom order
      */
     private static void priorityQueueCustomOrder() {
-        Comparator<String> comparator = Comparator.comparingInt(String::length);
+        Comparator<String> comparator = Comparator
+                .comparing(String::length)
+                .reversed();
 
         PriorityQueue<String> priorityQueue = new PriorityQueue<>(comparator);
 
