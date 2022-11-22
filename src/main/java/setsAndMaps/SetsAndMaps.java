@@ -1,9 +1,7 @@
 package setsAndMaps;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SetsAndMaps {
     public static void main(String[] args) {
@@ -43,7 +41,17 @@ public class SetsAndMaps {
      * Map
      */
     private static void map() {
-        Map<String, String> people = Collections.emptyMap();
-        people.put("M1", "Mark");
+
+        Map<String, Person> people = new HashMap<>();
+
+        people.put("M1", new Person("Mark 1", 0));
+        people.put("M2", new Person("Mark 2", 21));
+        people.put("M3", new Person("Mark 3", 21));
+
+    }
+}
+record Person(String name, int age) {
+    public Person {
+        if (age <= 0) throw new IllegalArgumentException("Age cannot be negative");
     }
 }
