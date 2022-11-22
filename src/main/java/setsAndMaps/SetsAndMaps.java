@@ -2,6 +2,7 @@ package setsAndMaps;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class SetsAndMaps {
@@ -12,6 +13,9 @@ public class SetsAndMaps {
         map();
     }
 
+    /**
+     * Set
+     */
     private static void set() {
 
         Set<String> a = new HashSet<>();
@@ -35,7 +39,11 @@ public class SetsAndMaps {
         System.out.println("Difference: " + difference);
     }
 
+    /**
+     * Map
+     */
     private static void map() {
-
+        Map<String, String> people = Collections.emptyMap();
+        people.put("M1", "Mark");
     }
 }

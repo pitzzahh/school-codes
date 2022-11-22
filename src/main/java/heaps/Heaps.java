@@ -9,18 +9,35 @@ public class Heaps {
     public static void main(String[] args) {
         System.out.println("MIN HEAP");
         minHeap();
+        System.out.println("MAX HEAP");
+        maxHeap();
         System.out.println("PRIORITY QUEUE");
         priorityQueueFirst();
         System.out.println("PRIORITY QUEUE WITH CUSTOM ORDER");
         priorityQueueSecond();
     }
 
+    /**
+     * Min Heap
+     */
     private static void minHeap() {
         ArrayList<Integer> heap = new ArrayList<>();
         Collections.addAll(heap, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         System.out.println(heap.get(0));
     }
 
+    /**
+     * Max heap is a heap where the root node is the largest element in the heap.
+     */
+    private static void maxHeap() {
+        PriorityQueue<Integer> heap = new PriorityQueue<>(Collections.reverseOrder());
+        Collections.addAll(heap, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        System.out.println(heap.peek());
+    }
+
+    /**
+     * Priority Queue
+     */
     private static void priorityQueueFirst() {
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
         // add unordered numbers on each line
@@ -34,6 +51,9 @@ public class Heaps {
         }
     }
 
+    /**
+     * Priority Queue with custom order
+     */
     private static void priorityQueueSecond() {
         Comparator<String> comparator = Comparator.comparingInt(String::length);
 
