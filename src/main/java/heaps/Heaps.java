@@ -30,9 +30,10 @@ public class Heaps {
      * Max heap is a heap where the root node is the largest element in the heap.
      */
     private static void maxHeap() {
-        PriorityQueue<Integer> heap = new PriorityQueue<>(Collections.reverseOrder());
+        ArrayList<Integer> heap = new ArrayList<>();
         Collections.addAll(heap, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        System.out.println(heap.peek());
+        heap.sort(Comparator.reverseOrder());
+        System.out.println(heap.get(0));
     }
 
     /**
