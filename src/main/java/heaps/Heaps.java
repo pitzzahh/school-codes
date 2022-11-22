@@ -14,7 +14,7 @@ public class Heaps {
         System.out.println("PRIORITY QUEUE");
         priorityQueueFirst();
         System.out.println("PRIORITY QUEUE WITH CUSTOM ORDER");
-        priorityQueueSecond();
+        priorityQueueCustomOrder();
     }
 
     /**
@@ -54,7 +54,7 @@ public class Heaps {
     /**
      * Priority Queue with custom order
      */
-    private static void priorityQueueSecond() {
+    private static void priorityQueueCustomOrder() {
         Comparator<String> comparator = Comparator.comparingInt(String::length);
 
         PriorityQueue<String> priorityQueue = new PriorityQueue<>(comparator);
