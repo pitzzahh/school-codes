@@ -6,15 +6,19 @@ import java.awt.event.WindowEvent;
 
 public class Main extends Frame {
     private int count = 0;
+
     public Main() throws HeadlessException {
+
         Button b = new Button("Click");
+
         Label label = new Label();
-        label.setVisible(false);
+        label.setForeground(Color.WHITE);
         Panel panel = new Panel();
+
+        setBackground(Color.BLUE);
 
         b.addActionListener(e -> {
             count++;
-            label.setVisible(true);
             label.setText("Clicked " + count + " times");
         });
 
