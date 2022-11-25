@@ -1,5 +1,6 @@
 package scratch;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class App {
@@ -10,8 +11,6 @@ public class App {
         queue.add(1);
         queue.add(3);
         queue.add(5);
-        queue.stream()
-             .sorted()
-             .forEach(System.out::println);
+        queue.stream().sorted().forEach(System.out::println);
     }
 }
