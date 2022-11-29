@@ -31,9 +31,6 @@ public class RunAnimal {
 
 abstract class Animal {
 
-    /**
-     * The animal's eating.
-     */
     public abstract String eat();
     public abstract String sleep();
     public abstract String makeSound();
@@ -42,12 +39,10 @@ abstract class Animal {
     public String toString() {
         return eat().concat(" and ").concat(sleep()).concat("\n").concat(makeSound());
     }
+
 }
 class Bird extends Animal {
 
-    /**
-     * The animal's eating.
-     */
     @Override
     public String eat() {
         return "Birds love to eat seeds";
@@ -66,9 +61,6 @@ class Bird extends Animal {
 }
 class Cat extends Animal {
 
-    /**
-     * The animal's eating.
-     */
     @Override
     public String eat() {
         return "Cats love to eat fish";
@@ -86,9 +78,6 @@ class Cat extends Animal {
 }
 class Dog extends Animal {
 
-    /**
-     * The animal's eating.
-     */
     @Override
     public String eat() {
         return "Dogs love to eat meat";
