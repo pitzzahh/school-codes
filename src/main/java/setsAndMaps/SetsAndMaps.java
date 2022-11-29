@@ -44,7 +44,7 @@ public class SetsAndMaps {
 
         Map<String, Person> people = new HashMap<>();
 
-        people.put("M1", new Person("Mark 1", 0));
+        people.put("M1", new Person("Mark 1", 10));
         people.put("M2", new Person("Mark 2", 21));
         people.put("M3", new Person("Mark 3", 21));
 
