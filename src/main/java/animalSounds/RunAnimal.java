@@ -11,19 +11,10 @@ public class RunAnimal {
         do {
             System.out.print("Choose an animal. Press B for Bird, C for Cat or D for Dog: ");
             input = scanner.nextLine();
-            if (input.equalsIgnoreCase("B")) {
-                Bird bird = new Bird();
-                System.out.println(bird);
-            } else if (input.equalsIgnoreCase("C")) {
-                Cat cat = new Cat();
-                System.out.println(cat);
-            } else if (input.equalsIgnoreCase("D")) {
-                Dog dog = new Dog();
-                System.out.println(dog);
-            }
-            else {
-                System.out.println("Invalid input\nThe Program will terminate");
-            }
+            if (input.equalsIgnoreCase("B")) System.out.println(new Bird());
+            else if (input.equalsIgnoreCase("C")) System.out.println(new Cat());
+            else if (input.equalsIgnoreCase("D")) System.out.println(new Dog());
+            else System.out.println("Invalid input\nThe Program will terminate");
             System.out.println();
         } while (inputs.contains(input));
     }
