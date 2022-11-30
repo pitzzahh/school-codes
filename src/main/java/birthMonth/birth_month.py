@@ -1,8 +1,8 @@
-max_length = 3
+max_size = 3
 
 
 def ask_birth_month(the_set):
-    if len(the_set) != max_length:
+    if len(the_set) != max_size:
         birth_month = input("Enter birth month %d: " % (len(the_set) + 1))
         the_set.add(birth_month)
         ask_birth_month(the_set)
