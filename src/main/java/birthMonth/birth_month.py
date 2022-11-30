@@ -14,7 +14,7 @@ def print_set(group_number, the_set):
 
 
 def print_more(first_group, second_group, self_set):
-    union = first_group.union(second_group, self_set)
+    union = (first_group | second_group | self_set)
     intersection = (first_group & second_group)
     difference = (first_group - second_group)
 
