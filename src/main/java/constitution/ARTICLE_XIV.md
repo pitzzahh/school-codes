@@ -8,8 +8,6 @@ ___
     Education
 </h2>
 
-___
-
 <h3>
     Section 1
 </h3>
@@ -41,16 +39,6 @@ ___
 
 <h4>
 &emsp; • establish and maintain systems of scholarship grants.
-</h4> 
-
-<h4>
-&emsp; •  encourage non-formal, informal, and indigenous learning systems, 
-    as well as self-learning, independent,
-</h4> 
-
-<h4>
-&emsp; •  and out-of-school study programs particularly those that respond to 
-    community needs
 </h4> 
 
 <h4>
@@ -94,4 +82,31 @@ ___
     No school or institution shall be established exclusively for aliens
 </h4>
 
+___
+
+<h3>
+    Section 5
+</h3>
+
+
+<h4>
+&emsp; • Every citizen has a right to select a profession or course of study, subject to fair,
+    reasonable, and equitable admission and academic requirements.
+</h4>
+
+___
+
+<h2>
+    Language
+</h2>
+
+
+<h3>
+    Section 6
+</h3>
+
+<h4>
+&emsp; • Every citizen has a right to select a profession or course of study, subject to fair,
+    reasonable, and equitable admission and academic requirements.
+</h4>
 
