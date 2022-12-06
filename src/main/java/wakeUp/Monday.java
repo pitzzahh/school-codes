@@ -1,6 +1,7 @@
 package wakeUp;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Scanner;
 
 public class Monday extends WeekDay {
 
@@ -8,7 +9,8 @@ public class Monday extends WeekDay {
 
      public static void main(String[] args) {
          Monday monday = new Monday();
-         monday.setAlarm("05:30");
+         System.out.print("Enter time for alarm in this format (HH:MM): ");
+         monday.setAlarm(new Scanner(System.in).nextLine());
          monday.showAlarm();
      }
 
@@ -19,13 +21,20 @@ public class Monday extends WeekDay {
 
      @Override
      public void showAlarm() {
-         LocalDateTime alarm = LocalDateTime.parse(time);
-         LocalDateTime now = LocalDateTime.now();
-            if (alarm.isAfter(now)) System.out.println("Alarm is set for tomorrow!");
-            else System.out.println("I'll wake you up later!");
+         LocalTime alarm = LocalTime.parse(this.time);
+         LocalTime now = LocalTime.now();
+            if (alarm.isAfter(now)) System.out.println("I'll wake you up later!");
+            else System.out.println("Alarm is set for tomorrow!");
      }
 
- }
+}
 
+interface Alarm {
+    void setAlarm(String time);
+    void showAlarm();
+}
 
+abstract class WeekDay implements Alarm {
+
+}
 
