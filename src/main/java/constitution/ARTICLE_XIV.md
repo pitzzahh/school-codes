@@ -32,11 +32,6 @@ ___
 </h4> 
 
 <h4>
-&emsp; • Establish and maintain free public education in 
-    elementary and high school levels (elementary education)
-</h4> 
-
-<h4>
 &emsp; • Establish and maintain systems of scholarship grants.
 </h4> 
 
@@ -244,7 +239,7 @@ ___
 ___
 
 <h3>
-    Section 17
+    Section 18
 </h3>
 
 <h4>
@@ -258,7 +253,7 @@ ___
 </h2>
 
 <h3>
-    Section 14
+    Section 19
 </h3>
 
 <h4>
