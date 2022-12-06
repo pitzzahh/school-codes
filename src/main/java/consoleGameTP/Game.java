@@ -10,8 +10,8 @@ public class Game {
 
     public static void main(String[] args) throws InterruptedException {
         Game game = new Game();
-        game.autoMode("Clarence");
-//        game.start(new Scanner(System.in));
+//        game.autoMode("Clarence");
+        game.start(new Scanner(System.in));
     }
 
     private void start(Scanner scanner) throws InterruptedException {
