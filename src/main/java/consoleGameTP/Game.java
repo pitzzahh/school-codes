@@ -1,16 +1,16 @@
 package consoleGameTP;
 
-import java.security.SecureRandom;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.security.SecureRandom;
 import java.util.stream.IntStream;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Game {
 
     public static void main(String[] args) throws InterruptedException {
         Game game = new Game();
-        game.autoMode("Peter");
+        game.autoMode("Clarence");
 //        game.start(new Scanner(System.in));
     }
 
@@ -18,11 +18,11 @@ public class Game {
         System.out.print("Enter your name: ");
         String name = scanner.nextLine().trim();
         System.out.println("Hello " + name + "!");
-        printLine(23);
+        printLine(22);
         System.out.printf("%n%s%n", "|Select your game mode|");
-        printLine(23);
+        printLine(22);
         System.out.printf("%n%s%n", ": 1 : Auto mode");
-        System.out.printf("%n%s%n", ": 2 : Survival mode");
+        System.out.printf("%s%n", ": 2 : Survival mode");
 
         System.out.print("Enter your choice: ");
         String choice = scanner.nextLine().trim();
@@ -61,6 +61,8 @@ public class Game {
         setRandomWeapon(computer, random);
 
         do {
+            player.printInfo(player.getArmor(), player.getWeapon());
+            computer.printInfo(computer.getArmor(), computer.getWeapon());
             attackRandom(player, computer, random);
             TimeUnit.MILLISECONDS.sleep(700);
         } while (!computer.isDefeated() && !player.isDefeated());
@@ -96,11 +98,11 @@ public class Game {
         int randomNumber = random.nextInt(100) + 1;
         if (randomNumber % 2 == 0) {
             computer.defend(player.attack(computer.name()));
-            setRandomHeal(player, random);
+            setRandomHeal(computer, random);
         }
         else {
             player.defend(computer.attack(player.name()));
-            setRandomHeal(computer, random);
+            setRandomHeal(player, random);
         }
     }
 
@@ -109,11 +111,10 @@ public class Game {
             player.heal();
         }
     }
-    private static void printLine(int count) {
+    public static void printLine(int count) {
         IntStream.range(0, count)
                 .mapToObj(i -> "-")
                 .forEach(System.out::print);
-
     }
 
 }
@@ -137,6 +138,17 @@ interface IPlayer {
     default boolean isDefeated() {
         return health() <= 0;
     }
+
+    default void printInfo(IArmor armor, IWeapon weapon) {
+        System.out.println();
+        Game.printLine(23);
+        System.out.printf("%n%s", ":Player info:");
+        System.out.printf("%n%s", "Name: " + name());
+        System.out.printf("%n%s", "Health: " + health());
+        armor.printInfo();
+        weapon.printInfo();
+        Game.printLine(23);
+    }
 }
 
 interface IWeapon {
@@ -145,12 +157,24 @@ interface IWeapon {
 
     int damage();
 
+    default void printInfo() {
+        System.out.printf("%n%s", ":Weapon info:");
+        System.out.printf("%n%s", "Name: " + name());
+        System.out.printf("%n%s%n", "Damage: " + damage());
+    }
+
 }
 
 interface IArmor {
     String name();
 
     int defense();
+
+    default void printInfo() {
+        System.out.printf("%n%s", ":Armor info:");
+        System.out.printf("%n%s", "Name: " + name());
+        System.out.printf("%n%s%n", "Defense: " + defense());
+    }
 }
 
 class Player implements IPlayer {
@@ -176,6 +200,14 @@ class Player implements IPlayer {
         this.armor = armor;
     }
 
+    public IArmor getArmor() {
+        return armor;
+    }
+
+    public IWeapon getWeapon() {
+        return weapon;
+    }
+
     @Override
     public String name() {
         return name;
@@ -183,7 +215,7 @@ class Player implements IPlayer {
 
     @Override
     public int health() {
-        return health + Optional.ofNullable(armor).map(IArmor::defense).orElse(0);
+        return health + Optional.ofNullable(getArmor()).map(IArmor::defense).orElse(0);
     }
 
     @Override
@@ -205,7 +237,7 @@ class Player implements IPlayer {
 
     @Override
     public void heal() {
-        health += new SecureRandom().nextInt(10) + 1;
+        health += new SecureRandom().nextInt(20) + 1;
         System.out.printf("%s heal yourself!%n", name());
         printCurrentHealth();
     }
