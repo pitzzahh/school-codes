@@ -179,3 +179,29 @@ ___
     regional administrations, and neighborhood-based organizations in the creation and 
     application of science and technology.
 </h4>
+
+___
+
+<h3>
+    Section 13
+</h3>
+
+<h4>
+&emsp; • For the time period that may be specified by legislation, the State shall defend and 
+    secure the exclusive rights of scientists, inventors, artists, and other talented persons 
+    to their intellectual property and creations.
+</h4>
+
+___
+
+<h2>
+    ARTS AND CULTURE
+</h2>
+
+<h3>
+    Section 10
+</h3>
+
+<h4>
+&emsp; • null
+</h4>
