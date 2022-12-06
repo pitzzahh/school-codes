@@ -220,3 +220,47 @@ ___
 </h4>
 
 ___
+
+<h3>
+    Section 16
+</h3>
+
+<h4>
+&emsp; • All the country's artistic and historic wealth constitutes the cultural treasure of the
+    nation and shall be under the protection of the State which may regulate its disposition.
+</h4>
+
+___
+
+<h3>
+    Section 17
+</h3>
+
+<h4>
+&emsp; • The State shall recognize, respect, and protect the rights of indigenous cultural
+    communities to preserve and develop their cultures, traditions, and institutions.
+</h4>
+
+___
+
+<h3>
+    Section 17
+</h3>
+
+<h4>
+&emsp; •  The State shall encourage and support researches and studies on the arts and culture.
+</h4>
+
+___
+
+<h2>
+    SPORTS
+</h2>
+
+<h3>
+    Section 14
+</h3>
+
+<h4>
+&emsp; •  The State shall promote physical education and encourage sports programs
+</h4>
