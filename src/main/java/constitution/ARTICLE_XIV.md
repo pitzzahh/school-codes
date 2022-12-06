@@ -106,7 +106,28 @@ ___
 </h3>
 
 <h4>
-&emsp; • Every citizen has a right to select a profession or course of study, subject to fair,
-    reasonable, and equitable admission and academic requirements.
+&emsp; • The national language of the Philippines is Filipino. As it evolves, it shall be further
+    developed and enriched on the basis of existing Philippine and other languages.
 </h4>
 
+___
+
+<h3>
+    Section 7
+</h3>
+
+<h4>
+&emsp; • For purposes of communication and instruction, the official languages of the Philippines
+    are Filipino and, until otherwise provided by law, English.  
+</h4>
+
+___
+
+<h3>
+    Section 8
+</h3>
+
+<h4>
+&emsp; • For purposes of communication and instruction, the official languages of the Philippines
+    are Filipino and, until otherwise provided by law, English.  
+</h4>
