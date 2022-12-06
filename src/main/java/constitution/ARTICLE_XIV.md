@@ -24,10 +24,6 @@ ___
 </h3>
 
 <h4>
-    The State shall
-</h4> 
-
-<h4>
 &emsp; • Integrated system of education relevant to the needs of the people and the society
 </h4> 
 
