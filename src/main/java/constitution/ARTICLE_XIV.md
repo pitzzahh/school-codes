@@ -199,9 +199,24 @@ ___
 </h2>
 
 <h3>
-    Section 10
+    Section 14
 </h3>
 
 <h4>
-&emsp; • null
+&emsp; • The State shall protect and secure the exclusive rights of scientists, inventors, artists, 
+    and other brilliant individuals to their intellectual property and creations for the duration that 
+    may be set by legislation.
 </h4>
+
+___
+
+<h3>
+    Section 15
+</h3>
+
+<h4>
+&emsp; • The State will support the arts and humanities. The State is responsible for preserving, promoting, 
+    and popularizing the country's historical, cultural, and artistic productions.
+</h4>
+
+___
