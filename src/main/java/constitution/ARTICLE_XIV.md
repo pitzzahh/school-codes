@@ -128,6 +128,18 @@ ___
 </h3>
 
 <h4>
-&emsp; • For purposes of communication and instruction, the official languages of the Philippines
-    are Filipino and, until otherwise provided by law, English.  
+&emsp; • This Constitution shall be promulgated in Filipino and English and shall be translated into
+    major regional languages, Arabic, and Spanish.
 </h4>
+
+<h3>
+    Section 9
+</h3>
+
+<h4>
+&emsp; • The Congress shall establish a national language commission. (promote and preservation of Filipino and
+    other languages. 
+</h4>
+
+
+
