@@ -73,3 +73,25 @@ ___
 &emsp; • Must teach all about moral character, patriotism, respect to human rights etc.
 </h4>
 
+<h4>
+&emsp; • Religion related education are allowed to be taught in public elementary 
+    and high school approved by the religious authorities 
+</h4>
+
+___
+
+<h3>
+    Section 4
+</h3>
+
+<h4>
+&emsp; • The State should recognize public and private institutions
+    with supervision and regulation.
+</h4>
+
+<h4>
+&emsp; • Educational Institution should only be owned by citizens of the Philippines.
+    No school or institution shall be established exclusively for aliens
+</h4>
+
+
