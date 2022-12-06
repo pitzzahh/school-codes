@@ -5,7 +5,7 @@
 ___
 
 <h2>
-    Education
+    EDUCATION
 </h2>
 
 <h3>
@@ -13,8 +13,7 @@ ___
 </h3>
 
 <h4>
-    Education must be accessible to everyone, 
-    and the State shall protect the right of citizens
+&emsp; Education must be accessible to everyone, and the State shall protect the right of citizens
     to quality education.
 </h4>
 
@@ -29,16 +28,16 @@ ___
 </h4> 
 
 <h4>
-&emsp; • integrated system of education relevant to the needs of the people and the society
+&emsp; • Integrated system of education relevant to the needs of the people and the society
 </h4> 
 
 <h4>
-&emsp; • establish and maintain free public education in 
+&emsp; • Establish and maintain free public education in 
     elementary and high school levels (elementary education)
 </h4> 
 
 <h4>
-&emsp; • establish and maintain systems of scholarship grants.
+&emsp; • Establish and maintain systems of scholarship grants.
 </h4> 
 
 <h4>
@@ -97,7 +96,7 @@ ___
 ___
 
 <h2>
-    Language
+    LANGUAGE
 </h2>
 
 
@@ -132,6 +131,8 @@ ___
     major regional languages, Arabic, and Spanish.
 </h4>
 
+___
+
 <h3>
     Section 9
 </h3>
@@ -141,5 +142,40 @@ ___
     other languages. 
 </h4>
 
+___
 
+<h2>
+    SCIENCE AND TECHNOLOGY
+</h2>
 
+<h3>
+    Section 10
+</h3>
+
+<h4>
+&emsp; • It will promote the use of indigenous, suitable, 
+    and independent scientific and technical skills in the nation's economic and societal systems
+</h4>
+
+___
+
+<h3>
+    Section 11
+</h3>
+
+<h4>
+&emsp; • Deserving science students, researchers, scientists, innovators, technicians, 
+    and people with exceptional talent should be given scholarships, grants in-aid, or other forms of incentives.
+</h4>
+
+___
+
+<h3>
+    Section 12
+</h3>
+
+<h4>
+&emsp; • It will promote the broadest possible involvement of business enterprises, 
+    regional administrations, and neighborhood-based organizations in the creation and 
+    application of science and technology.
+</h4>
