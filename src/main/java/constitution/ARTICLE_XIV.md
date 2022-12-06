@@ -166,9 +166,9 @@ ___
 </h3>
 
 <h4>
-&emsp; • It will promote the broadest possible involvement of business enterprises, 
-    regional administrations, and neighborhood-based organizations in the creation and 
-    application of science and technology.
+&emsp; • It shall encourage the widest participation of private
+    groups, local governments, and community-based organizations in the generation and
+    utilization of science and technology.
 </h4>
 
 ___
