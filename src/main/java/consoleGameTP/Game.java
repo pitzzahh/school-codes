@@ -36,7 +36,7 @@ public class Game {
             choice = Utility.INPUT.nextLine().trim();
 
             if (choice.equals("1")) autoMode();
-            else if (choice.equals("2")) survivalMode(Utility.INPUT);
+            else if (choice.equals("2")) survivalMode();
             else System.out.println("Invalid input");
         } while (!choice.equals("1") && !choice.equals("2"));
     }
@@ -60,11 +60,11 @@ public class Game {
         setRandomArmor(player, random);
         setRandomWeapon(player, random);
 
-        other(player, computer, random);
+        continuePlay(player, computer, random);
     }
 
-    private void survivalMode(Scanner scanner) throws InterruptedException {
-
+    private void survivalMode() throws InterruptedException {
+        printLine(22);
         printLine(14);
         System.out.printf("%n%s%s%s%n", CYAN_BOLD_BRIGHT, "|Survival mode|", RESET);
         printLine(14);
@@ -76,7 +76,7 @@ public class Game {
         SecureRandom random = new SecureRandom();
 
         System.out.printf("%n%s", "Enter your name: ");
-        String name = scanner.nextLine().trim();
+        String name = Utility.INPUT.nextLine().trim();
         player.setName(name);
 
         printLine(22);
@@ -84,12 +84,12 @@ public class Game {
         System.out.printf("%n%s%n", "LIST OF ARMORS");
         IArmor.printArmors();
         System.out.print("Enter your armor: ");
-        player.setArmor(scanner.nextLine().trim().equals("1") ? new IronArmor() : new GoldArmor());
+        player.setArmor(Utility.INPUT.nextLine().trim().equals("1") ? new IronArmor() : new GoldArmor());
 
         printLine(22);
 
         System.out.printf("%n%s", "Enter your health: ");
-        String health = scanner.nextLine().trim();
+        String health = Utility.INPUT.nextLine().trim();
         player.setHealth(Integer.parseInt(health));
 
         printLine(22);
@@ -97,16 +97,16 @@ public class Game {
         System.out.printf("%n%s%n", "LIST OF WEAPONS");
         IWeapon.printWeapons();
         System.out.print("Enter your weapon: ");
-        player.setWeapon(scanner.nextLine().trim().equals("1") ? new Fist() : new Sword());
+        player.setWeapon(Utility.INPUT.nextLine().trim().equals("1") ? new Fist() : new Sword());
 
         printLine(22);
 
-        other(player, computer, random);
+        continuePlay(player, computer, random);
     }
 
-    private void other(Player player, Player computer, SecureRandom random) throws InterruptedException {
-        computer.setName("Computer");
+    private void continuePlay(Player player, Player computer, SecureRandom random) throws InterruptedException {
 
+        computer.setName("Computer");
         setRandomHealth(computer, random);
         setRandomArmor(computer, random);
         setRandomWeapon(computer, random);
@@ -114,20 +114,22 @@ public class Game {
         do {
 
             player.printInfo(player.getArmor(), player.getWeapon());
+            TimeUnit.MILLISECONDS.sleep(6000);
             computer.printInfo(computer.getArmor(), computer.getWeapon());
+            TimeUnit.MILLISECONDS.sleep(6000);
             attackRandom(player, computer, random);
-            TimeUnit.MILLISECONDS.sleep(700);
+            TimeUnit.MILLISECONDS.sleep(4000);
 
         } while (!computer.isDefeated() && !player.isDefeated());
 
-        checkWinning(player, random);
+        checkWinning(player);
 
-        checkWinning(computer, random);
+        checkWinning(computer);
 
         System.out.println(MESSAGE[random.nextInt(MESSAGE.length)]);
     }
 
-    private static void checkWinning(Player player, SecureRandom random) {
+    private static void checkWinning(Player player) {
         if (player.isDefeated()) System.out.printf("%n%s lost!%n", player.name());
         else System.out.printf("%n%s won!%n", player.name());
     }
@@ -193,9 +195,9 @@ interface IPlayer {
     default void printInfo(IArmor armor, IWeapon weapon) {
         System.out.println();
         Game.printLine(23);
-        System.out.printf("%n%s", ":Player info:");
+        System.out.printf("%n%s%s%s", YELLOW_BOLD_BRIGHT, ":Player info:", CYAN_BOLD_BRIGHT);
         System.out.printf("%n%s%s%s%s", "Name: ", YELLOW_BOLD_BRIGHT, name(), CYAN_BOLD_BRIGHT);
-        System.out.printf("%n%s%s%s%s", "Health: ", BLUE_BOLD_BRIGHT, health(), RESET);
+        System.out.printf("%n%s%s%s%s", "Health: ", health() <= 20 ? RED_BOLD_BRIGHT : BLUE_BOLD_BRIGHT, health(), RESET);
         armor.printInfo();
         weapon.printInfo();
         Game.printLine(23);
@@ -209,14 +211,14 @@ interface IWeapon {
     int damage();
 
     static void printWeapons() {
-        System.out.println(": 1 : Fist");
-        System.out.println(": 2 : Sword");
+        System.out.printf("%s:%s 1 %s:%s Fist", CYAN_BOLD_BRIGHT, YELLOW_BOLD_BRIGHT, CYAN_BOLD_BRIGHT, RESET);
+        System.out.printf("%s:%s 2 %s:%s Sword", CYAN_BOLD_BRIGHT, YELLOW_BOLD_BRIGHT, CYAN_BOLD_BRIGHT, RESET);
     }
 
     default void printInfo() {
-        System.out.printf("%n%s", ":Weapon info:");
-        System.out.printf("%n%s", "Name: " + name());
-        System.out.printf("%n%s%n", "Damage: " + damage());
+        System.out.printf("%n%s%s%s", YELLOW_BOLD_BRIGHT, ":Weapon info:", CYAN_BOLD_BRIGHT);
+        System.out.printf("%n%s%s%s%s", "Name: ", PURPLE_BOLD_BRIGHT, name(), CYAN_BOLD_BRIGHT);
+        System.out.printf("%n%s%s%s%n", "Damage: ", RED_BOLD_BRIGHT, damage());
     }
 
 }
@@ -225,15 +227,16 @@ interface IArmor {
     String name();
 
     int defense();
+
     static void printArmors() {
-        System.out.println(": 1 : Iron Armor");
-        System.out.println(": 2 : Gold Armor");
+        System.out.printf("%s:%s 1 %s:%s Iron Armor", CYAN_BOLD_BRIGHT, YELLOW_BOLD_BRIGHT, CYAN_BOLD_BRIGHT, RESET);
+        System.out.printf("%s:%s 2 %s:%s Gold Armor", CYAN_BOLD_BRIGHT, YELLOW_BOLD_BRIGHT, CYAN_BOLD_BRIGHT, RESET);
     }
 
     default void printInfo() {
-        System.out.printf("%n%s", ":Armor info:");
-        System.out.printf("%n%s", "Name: " + name());
-        System.out.printf("%n%s%n", "Defense: " + defense());
+        System.out.printf("%n%s%s%s", YELLOW_BOLD_BRIGHT, ":Armor info:", CYAN_BOLD_BRIGHT);
+        System.out.printf("%n%s%s%s%s", "Name: ", PURPLE_BOLD_BRIGHT, name(), CYAN_BOLD_BRIGHT);
+        System.out.printf("%n%s%s%s%n", "Defense: ", RED_BOLD_BRIGHT, defense());
     }
 }
 
