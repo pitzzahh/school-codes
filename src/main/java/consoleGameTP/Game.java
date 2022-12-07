@@ -1,5 +1,6 @@
 package consoleGameTP;
 
+import static consoleGameTP.Utility.*;
 import java.util.concurrent.TimeUnit;
 import java.security.SecureRandom;
 import java.util.stream.IntStream;
@@ -10,36 +11,37 @@ public class Game {
 
     public static void main(String[] args) throws InterruptedException {
         Game game = new Game();
-//        game.autoMode("Clarence");
-        game.start(new Scanner(System.in));
+        // create a greeting text and print it
+        System.out.printf("%s%s%s%n", CYAN_BOLD_BRIGHT, "Welcome to the game!", RESET);
+        game.start();
     }
 
-    private void start(Scanner scanner) throws InterruptedException {
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine().trim();
-        System.out.println("Hello " + name + "!");
-        printLine(22);
-        System.out.printf("%n%s%n", "|Select your game mode|");
-        printLine(22);
-        System.out.printf("%n%s%n", ": 1 : Auto mode");
-        System.out.printf("%s%n", ": 2 : Survival mode");
+    private void start() throws InterruptedException {
+        String choice;
+        do {
 
-        System.out.print("Enter your choice: ");
-        String choice = scanner.nextLine().trim();
+            printLine(23);
+            System.out.printf("%n%s|%s%s%s|%s%n",
+                    YELLOW_BOLD_BRIGHT,
+                    BLUE_BOLD_BRIGHT,
+                    "Select your game mode",
+                    YELLOW_BOLD_BRIGHT,
+                    RESET
+            );
+            printLine(23);
+            System.out.printf("%n%s%n", ": 1 : Auto mode");
+            System.out.printf("%s%n", ": 2 : Survival mode");
 
-        switch (choice) {
-            case "1":
-                autoMode(name);
-                break;
-            case "2":
-                survivalMode(scanner);
-                break;
-            default:
-                System.out.println("Invalid input");
-        }
+            System.out.print("Enter your choice: ");
+            choice = Utility.INPUT.nextLine().trim();
+
+            if (choice.equals("1")) autoMode();
+            else if (choice.equals("2")) survivalMode(Utility.INPUT);
+            else System.out.println("Invalid input");
+        } while (!choice.equals("1") && !choice.equals("2"));
     }
 
-    private void autoMode(String name) throws InterruptedException {
+    private void autoMode() throws InterruptedException {
         printLine(12);
         System.out.printf("%n%s%n", "|Auto mode|");
         printLine(12);
@@ -48,12 +50,61 @@ public class Game {
         Player computer = new Player();
         SecureRandom random = new SecureRandom();
 
+        System.out.printf("%n%sEnter your name: %s", YELLOW_BOLD_BRIGHT, RESET);
+        String name = Utility.INPUT.nextLine().trim();
+        System.out.println(PURPLE_BOLD_BRIGHT + "Hello " + name + "!" + RESET);
+
         player.setName(name);
 
         setRandomHealth(player, random);
         setRandomArmor(player, random);
         setRandomWeapon(player, random);
 
+        other(player, computer, random);
+    }
+
+    private void survivalMode(Scanner scanner) throws InterruptedException {
+
+        printLine(14);
+        System.out.printf("%n%s%s%s%n", CYAN_BOLD_BRIGHT, "|Survival mode|", RESET);
+        printLine(14);
+        System.out.println();
+        printLine(22);
+
+        Player player = new Player();
+        Player computer = new Player();
+        SecureRandom random = new SecureRandom();
+
+        System.out.printf("%n%s", "Enter your name: ");
+        String name = scanner.nextLine().trim();
+        player.setName(name);
+
+        printLine(22);
+
+        System.out.printf("%n%s%n", "LIST OF ARMORS");
+        IArmor.printArmors();
+        System.out.print("Enter your armor: ");
+        player.setArmor(scanner.nextLine().trim().equals("1") ? new IronArmor() : new GoldArmor());
+
+        printLine(22);
+
+        System.out.printf("%n%s", "Enter your health: ");
+        String health = scanner.nextLine().trim();
+        player.setHealth(Integer.parseInt(health));
+
+        printLine(22);
+
+        System.out.printf("%n%s%n", "LIST OF WEAPONS");
+        IWeapon.printWeapons();
+        System.out.print("Enter your weapon: ");
+        player.setWeapon(scanner.nextLine().trim().equals("1") ? new Fist() : new Sword());
+
+        printLine(22);
+
+        other(player, computer, random);
+    }
+
+    private void other(Player player, Player computer, SecureRandom random) throws InterruptedException {
         computer.setName("Computer");
 
         setRandomHealth(computer, random);
@@ -61,25 +112,24 @@ public class Game {
         setRandomWeapon(computer, random);
 
         do {
+
             player.printInfo(player.getArmor(), player.getWeapon());
             computer.printInfo(computer.getArmor(), computer.getWeapon());
             attackRandom(player, computer, random);
             TimeUnit.MILLISECONDS.sleep(700);
+
         } while (!computer.isDefeated() && !player.isDefeated());
 
-        checkWinning(player);
+        checkWinning(player, random);
 
-        checkWinning(computer);
+        checkWinning(computer, random);
 
+        System.out.println(MESSAGE[random.nextInt(MESSAGE.length)]);
     }
 
-    private static void checkWinning(Player player) {
+    private static void checkWinning(Player player, SecureRandom random) {
         if (player.isDefeated()) System.out.printf("%n%s lost!%n", player.name());
         else System.out.printf("%n%s won!%n", player.name());
-    }
-
-    private void survivalMode(Scanner scanner) {
-
     }
 
     private void setRandomHealth(Player player, SecureRandom random) {
@@ -111,9 +161,10 @@ public class Game {
             player.heal();
         }
     }
+
     public static void printLine(int count) {
         IntStream.range(0, count)
-                .mapToObj(i -> "-")
+                .mapToObj(i -> PURPLE_BOLD_BRIGHT + "-" + RESET)
                 .forEach(System.out::print);
     }
 
@@ -143,8 +194,8 @@ interface IPlayer {
         System.out.println();
         Game.printLine(23);
         System.out.printf("%n%s", ":Player info:");
-        System.out.printf("%n%s", "Name: " + name());
-        System.out.printf("%n%s", "Health: " + health());
+        System.out.printf("%n%s%s%s%s", "Name: ", YELLOW_BOLD_BRIGHT, name(), CYAN_BOLD_BRIGHT);
+        System.out.printf("%n%s%s%s%s", "Health: ", BLUE_BOLD_BRIGHT, health(), RESET);
         armor.printInfo();
         weapon.printInfo();
         Game.printLine(23);
@@ -156,6 +207,11 @@ interface IWeapon {
     String name();
 
     int damage();
+
+    static void printWeapons() {
+        System.out.println(": 1 : Fist");
+        System.out.println(": 2 : Sword");
+    }
 
     default void printInfo() {
         System.out.printf("%n%s", ":Weapon info:");
@@ -169,6 +225,10 @@ interface IArmor {
     String name();
 
     int defense();
+    static void printArmors() {
+        System.out.println(": 1 : Iron Armor");
+        System.out.println(": 2 : Gold Armor");
+    }
 
     default void printInfo() {
         System.out.printf("%n%s", ":Armor info:");
@@ -296,4 +356,30 @@ class GoldArmor implements IArmor {
     public int defense() {
         return 80;
     }
+}
+
+interface Utility {
+    // Reset
+    String RESET = "\033[0m";  // Text Reset
+    Scanner INPUT = new Scanner(System.in);
+
+    String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
+    String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
+    String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW
+    String BLUE_BOLD_BRIGHT = "\033[1;94m";  // BLUE
+    String PURPLE_BOLD_BRIGHT = "\033[1;95m";// PURPLE
+    String CYAN_BOLD_BRIGHT = "\033[1;96m";  // CYAN
+
+    String[] MESSAGE = {
+            GREEN_BOLD_BRIGHT + "|> Computer: I only want to see whether you will let me win this game, or beat it." + RESET,
+            GREEN_BOLD_BRIGHT + "|> Computer: You win your battles or I'll destroy you!" + RESET,
+            GREEN_BOLD_BRIGHT + "|> Computer: It is not difficult to capture a fortress but it is difficult to win a RandomGame." + RESET,
+            GREEN_BOLD_BRIGHT + "|> Computer: What did you win in your deal about me?" + RESET,
+            GREEN_BOLD_BRIGHT + "|> Computer: You really want to win this bet, don't you? haha Congrats!" + RESET,
+            GREEN_BOLD_BRIGHT + "|> Computer: After you beat me and win the game, there's no way you can fire me again." + RESET,
+            GREEN_BOLD_BRIGHT + "|> Computer: You thinking you're gonna win this game, haha you're right" + RESET,
+            GREEN_BOLD_BRIGHT + "|> Computer: You know you can't win a battle without me. you against AI, stupid" + RESET
+    };
+
+
 }
