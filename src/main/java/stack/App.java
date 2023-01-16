@@ -20,9 +20,8 @@ public class App {
     private static int count = 0;
 
     public static void main(String[] args) {
-        var infix = "(6/3+2)*(9-3)";
-        var postfix = "64+93-*";
-        infixToPostfix(infix);
+        var postfix = "342*+9-";
+        postfixEvaluation(postfix);
         println(stack);
     }
 
